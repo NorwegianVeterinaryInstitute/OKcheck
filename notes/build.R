@@ -1,0 +1,43 @@
+# DOCUMENT, TEST AND BUILD THE PACKAGE
+
+# Set up environment
+# rm(list = ls())    # Benyttes for å tømme R-environment ved behov
+
+pkg <- "OKcheck"
+
+Rlibrary <- R.home()
+
+library(devtools)
+library(roxygen2)
+library(withr)
+
+# Creates new help files
+# Should be run before git push when documentation for functions have been changed
+devtools::document()
+
+# Run tests included in ./tests.
+devtools::test()
+
+# Build the vignette
+# devtools::build_vignettes()
+# vignetteRDS <- readRDS("./Meta/vignette.rds")
+
+# devtools::build_manual()
+
+# Build the package
+# system("R CMD build ../NVIdb")
+# devtools::build(binary = TRUE)
+devtools::build(binary = FALSE, manual = TRUE, vignettes = TRUE)
+
+version <- packageVersion(pkg, lib.loc = paste0(getwd(),"/.."))
+devtools::check_built(path = paste0("../", pkg, "_", version, ".tar.gz"), args = c("--no-tests"), manual = TRUE)
+
+# Extensive checking of package. Is done after build. Creates PDF-manual
+# system("R CMD check --ignore-vignettes ../NVIdb")
+# Alternative for creating the PDF-manual. The manual is not put in the correct directory
+# system(paste(shQuote(file.path(R.home("bin"), "R")),
+#              "CMD",
+#              "Rd2pdf",
+#              shQuote(paste0(Rlibrary,"/library/NVIdb"))))
+
+

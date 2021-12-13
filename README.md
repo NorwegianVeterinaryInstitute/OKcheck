@@ -1,56 +1,88 @@
-OKcheck: Tools to facilitate checking of data from national surveillance programmes
-================
+OKcheck: Tools to facilitate checking of data from National Surveillance Programmes
+===================================================================================
 
-  - [Overview](#overview)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Copyright and license](#copyright-and-license)
-  - [Contributing](#contributing)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Overview
-`OKcheck` comprises tools to facilitate checking of data from national 
-surveillance programmes. 
+-   [Overview](#overview)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Copyright and license](#copyright-and-license)
+-   [Contributing](#contributing)
 
-# Installation
+Overview
+--------
 
-`OKcheck` is available at https://github.com/NorwegianVeterinaryInstitute. 
-To install `OKcheck` you will need:
-  - R version > 4.0.0
-  - R package `devtools`
-  - Rtools 4.0
+`OKcheck`provide tools to facilitate checking of data from national
+surveillance programmes.
 
-First install and attach the `devtools` package.  
+`OKcheck` is part of `NVIverse`, a collection of R-packages with tools
+to facilitate data management and data reporting at the Norwegian
+Veterinary Institute (NVI). The NVIverse consists of the following
+packages: NVIconfig, NVIdb, NVIpretty, NVIbatch, OKplan, OKcheck,
+NVIcheckmate, NVIpackager. See the vignette “Contribute to OKcheck” for
+more information.
 
-``` r
-install.packages("devtools")
-library(devtools)
-```
+Installation
+------------
 
-To install (or update) the `NVIcheckmate` package, run the following code:
+`OKcheck` is available at
+[GitHub](https://github.com/NorwegianVeterinaryInstitute). To install
+`OKcheck` you will need:
 
-``` r
-remotes::install_github("NorwegianVeterinaryInstitute/OKcheck", 
-	upgrade = FALSE, 
-	build = TRUE,
-	build_manual = TRUE)
-```
+-   R version &gt; 4.0.0
+-   R package `remotes`
+-   Rtools 4.0
 
-# Usage
-To come.
+First install and attach the `remotes` package.
 
-# Copyright and license
-Copyright 2021 Norwegian Veterinary Institute
+    install.packages("remotes")
+    library(remotes)
 
-Licensed under the BSD 3-Clause License (the "License"); The files in `OKcheck` 
-can be used in compliance with the [License](https://opensource.org/licenses/BSD-3-Clause).
+To install (or update) the `OKcheck` package, run the following code:
 
-# Contributing
+    remotes::install_github("NorwegianVeterinaryInstitute/OKcheck")
+        upgrade = FALSE,
+        build = TRUE,
+        build_manual = TRUE)
 
-Contributions to develop `OKcheck` is highly appreciated. You may, for example, 
-contribute by reporting a bug, fixing documentation errors, contributing new code, 
-or commenting on issues/pull requests. 
-
+Usage
 -----
 
-Please note that the OKcheck project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By 
-contributing to this project, you agree to abide by its terms.
+The `OKcheck` package needs to be attached.
+
+    library(OKcheck)
+
+`OKcheck`provide tools to facilitate checking of data from national
+surveillance programmes.
+
+The full list of all available functions and datasets can be accessed by
+typing
+
+    help(package = "OKcheck")
+
+Please check the NEWS for information on new features, bug fixes and
+other changes.
+
+Copyright and license
+---------------------
+
+Copyright (c) 2021 Norwegian Veterinary Institute.  
+Licensed under the BSD\_3\_clause License. See
+[License](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/LICENSE)
+for details.
+
+Contributing
+------------
+
+Contributions to develop `OKcheck` is highly appreciated. There are
+several ways you can contribute to this project: ask a question, propose
+an idea, report a bug, improve the documentation, or contribute code.
+The vignette “Contribute to OKcheck” gives more information.
+
+<!-- Code of conduct -->
+------------------------
+
+Please note that the OKcheck project is released with a [Contributor
+Code of
+Conduct](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.

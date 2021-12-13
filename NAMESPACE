@@ -2,3 +2,4 @@
 
 export(count_PJScodes)
 export(write_data_for_checking)
+importFrom(magrittr,"%>%")

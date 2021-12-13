@@ -11,6 +11,8 @@
 #' @param data data.frame with data that should be checked by the laboratory.
 #' @param heading Table title and text.
 #'
+#' @importFrom magrittr %>%
+#'
 #' @return If no lines to check an empty document. Else, a table with potential
 #'      mistakes in PJS. \code{standardize_columns} is used to standardize column
 #'      names.
@@ -24,7 +26,7 @@ write_data_for_checking <- function(data, heading) {
 
   # Perform checks
   # data
-  checkmate::assert_data - frame(data, add = checks)
+  checkmate::assert_data_frame(data, add = checks)
 
   # heading
   checkmate::assert_string(heading,

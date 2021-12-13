@@ -43,7 +43,6 @@ ktr <- count_PJScodes(PJSdata = PJSdata,
                       variable = "metodekode",
                       accepted = c("010001", "010002"),
                       translation_table = PJS_codes_2_text)
-
 }
 
 }

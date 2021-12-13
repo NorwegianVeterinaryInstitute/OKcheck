@@ -11,8 +11,10 @@
 #'
 #' @param PJSdata Data frame with data from PJS.
 #' @param variable The variabel in the data frame that should be checked.
-#' @param accepted Vector with accepted code values. Can be code\{NULL}.
+#' @param accepted Vector with accepted code values. Defaults to \code{NULL}.
 #' @param translation_table The translation table for PJS-codes, see details.
+#'
+#' @importFrom magrittr %>%
 #'
 #' @return A data frame with the used codes, their description and the number of
 #'     rows where the codes have been used.

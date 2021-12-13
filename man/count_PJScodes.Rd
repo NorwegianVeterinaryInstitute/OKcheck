@@ -16,6 +16,8 @@ count_PJScodes(
 
 \item{variable}{The variabel in the data frame that should be checked.}
 
+\item{accepted}{Vector with accepted code values. Defaults to \code{NULL}.}
+
 \item{translation_table}{The translation table for PJS-codes, see details.}
 }
 \value{

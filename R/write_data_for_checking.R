@@ -29,15 +29,14 @@ write_data_for_checking <- function(data, heading) {
   checkmate::assert_data_frame(data, add = checks)
 
   # heading
-  checkmate::assert_string(heading,
-                           add = checks)
+  checkmate::assert_string(heading, add = checks)
 
   # Report check-results
   checkmate::reportAssertions(checks)
 
   # WRITE NOTHING WHEN NO ROWS TO CHECK ----
   # Remove heading if no data to report
-  if (dim(dat)[1] == 0) {
+  if (dim(data)[1] == 0) {
     heading <- ""
   }
   knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause

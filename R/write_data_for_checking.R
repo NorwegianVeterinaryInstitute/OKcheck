@@ -15,7 +15,7 @@
 #'
 #' @return If no lines to check an empty document. Else, a table with potential
 #'      mistakes in PJS. \code{standardize_columns} is used to standardize column
-#'      names.
+#'      names and the heading is the table caption.
 #' @export
 
 
@@ -39,13 +39,18 @@ write_data_for_checking <- function(data, heading) {
   if (dim(data)[1] == 0) {
     heading <- ""
   }
-  knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
+  
+  # Makes output with only heading, resets output below if data for checking
+  output <- knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
 
   # WRITE DATA WHEN ROWS TO CHECK ----
   # Output data if any cases need to be checked
   if (dim(data)[1] > 0) {
     colnames(data) <- NVIdb::standardize_columns(data = data, property = "collabels")
 
-    knitr::kable(data) %>% kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+    output <- knitr::kable(data, caption = heading) %>% 
+      kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
   }
+  # RETURN HTML-TABLE WITH DATA FOR CHECKING ----
+  return(output)
 }

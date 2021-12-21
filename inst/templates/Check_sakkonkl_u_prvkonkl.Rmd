@@ -1,0 +1,22 @@
+```{r, echo = F}
+# Saker med sakskonklusjon som ikke er benyttet som prøvekonklusjon på noen av prøvene
+heading <- paste("<br/> <br/>",
+                 "<h4> Tabell 3. Saker med sakskonklusjon som ikke er benyttet som prøvekonklusjon på noen av prøvene </h4>",
+                 "<h5> Ber om at det sjekkes at sakskonklusjonen er korrekt. </h5>")
+# Identify cases that need to be checked
+prvkonkl <- unique(paste(PJSdata$saksnr, PJSdata$konkl_kjennelsekode, PJSdata$konkl_analyttkode, sep = "-"))
+ktr <- PJSdata %>%
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, 
+                sakskonkl_kjennelsekode, sakskonkl_analyttkode) %>%
+  dplyr::filter(!is.na(sakskonkl_analyttkode) & !is.na(sakskonkl_kjennelsekode)) %>%
+  dplyr::distinct() %>%
+  dplyr::mutate(index = paste(saksnr, sakskonkl_kjennelsekode, sakskonkl_analyttkode, sep = "-")) %>%
+  dplyr::filter(!index %in% prvkonkl) %>%
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr) %>%
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  %>%
+  NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
+                                  code_colname = c("sakskonkl_kjennelsekode", "sakskonkl_analyttkode"),
+                                  new_column = c("sakskonkl_kjennelse", "sakskonkl_analytt")) 
+# Remove heading if no data to report
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
+```

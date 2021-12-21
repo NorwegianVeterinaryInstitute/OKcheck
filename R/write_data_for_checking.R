@@ -39,7 +39,7 @@ write_data_for_checking <- function(data, heading) {
   if (dim(data)[1] == 0) {
     heading <- ""
   }
-  
+
   # Makes output with only heading, resets output below if data for checking
   output <- knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
 
@@ -48,7 +48,7 @@ write_data_for_checking <- function(data, heading) {
   if (dim(data)[1] > 0) {
     colnames(data) <- NVIdb::standardize_columns(data = data, property = "collabels")
 
-    output <- knitr::kable(data, caption = heading) %>% 
+    output <- knitr::kable(data, caption = heading) %>%
       kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
   }
   # RETURN HTML-TABLE WITH DATA FOR CHECKING ----

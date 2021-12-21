@@ -14,7 +14,7 @@ count_PJScodes(
 \arguments{
 \item{PJSdata}{Data frame with data from PJS.}
 
-\item{variable}{The variabel in the data frame that should be checked.}
+\item{variable}{The variable in the data frame that should be checked.}
 
 \item{accepted}{Vector with accepted code values. Defaults to \code{NULL}.}
 
@@ -31,9 +31,9 @@ Count used PJS-codes and marks whether they are accepted or not.
 The purpose is to give an overview of the PJS-codes used. PJS-codes
 that are included in the control routines as accepted codes are marked. The
 description text is added to all used codes to facilitate checking if the
-codes shoud be accepted or not.
+codes should be accepted or not.
 
-The \code{translation_table} for PJS-codes neeeds to be imported. The function
+The \code{translation_table} for PJS-codes needs to be imported. The function
 \code{NVIdb::read_PJS_code_2_text} should be used, see example.
 }
 \examples{

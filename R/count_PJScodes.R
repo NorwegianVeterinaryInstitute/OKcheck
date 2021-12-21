@@ -4,13 +4,13 @@
 #' @details The purpose is to give an overview of the PJS-codes used. PJS-codes
 #'    that are included in the control routines as accepted codes are marked. The
 #'    description text is added to all used codes to facilitate checking if the
-#'    codes shoud be accepted or not.
+#'    codes should be accepted or not.
 #'
-#'    The \code{translation_table} for PJS-codes neeeds to be imported. The function
+#'    The \code{translation_table} for PJS-codes needs to be imported. The function
 #'    \code{NVIdb::read_PJS_code_2_text} should be used, see example.
 #'
 #' @param PJSdata Data frame with data from PJS.
-#' @param variable The variabel in the data frame that should be checked.
+#' @param variable The variable in the data frame that should be checked.
 #' @param accepted Vector with accepted code values. Defaults to \code{NULL}.
 #' @param translation_table The translation table for PJS-codes, see details.
 #'

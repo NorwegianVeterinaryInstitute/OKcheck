@@ -20,14 +20,10 @@ options(width = 1000)
 #Load packages
 library(dplyr)
 library(tidyr)
-# library(openxlsx)
-# require("stringr")
 library(knitr)
 library(kableExtra)
-# library(ggplot2)
-# library(tidyr)
-# library(gtools)
 library(NVIdb)
+library(OKcheck)
 
 # Global variables
 #For use in filenames
@@ -67,18 +63,8 @@ ktr <- PJSdata %>%
   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr))  
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  knitr::kable(ktr) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+# testX(data = ktr, heading = heading)
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```
 
 ```{r, echo = F}
@@ -101,18 +87,7 @@ ktr <- PJSdata %>%
                                   new_column = c("sakskonkl_kjennelse", "sakskonkl_analytt")) 
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  print(knitr::kable(ktr)) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```
 
 ```{r, echo = F}
@@ -138,18 +113,7 @@ ktr <- PJSdata %>%
                                   new_column = c("sakskonkl_kjennelse", "sakskonkl_analytt")) 
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  knitr::kable(ktr) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```
 
 ```{r, echo = F}
@@ -188,18 +152,7 @@ ktr <- PJSdata %>%
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  knitr::kable(ktr) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```
 
 ```{r, echo = F}
@@ -241,18 +194,7 @@ ktr <- PJSdata %>%
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  knitr::kable(ktr) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```
 
 ```{r, echo = F}
@@ -275,18 +217,7 @@ ktr <- PJSdata %>%
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  knitr::kable(ktr) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```
 
 ```{r, echo = F}
@@ -343,18 +274,7 @@ ktr3 <- PJSdata %>%
 ktr <- rbind(ktr1, ktr2, ktr3)
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  knitr::kable(ktr) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```
 
 ```{r, echo = F}
@@ -376,16 +296,5 @@ ktr <- PJSdata %>%
                                   new_column = c("type","konkl_kjennelse", "konkl_analytt")) 
 
 # Remove heading if no data to report
-if (dim(ktr)[1] == 0) {
-  heading <- ""
-}
-knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# Output ktr if any cases need to be checked
-if (dim(ktr)[1] > 0) {
-  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-  knitr::kable(ktr) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-}
+OKcheck::write_data_for_checking(data = ktr, heading = heading)
 ```

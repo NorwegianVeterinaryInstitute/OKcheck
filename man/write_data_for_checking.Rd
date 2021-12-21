@@ -14,7 +14,7 @@ write_data_for_checking(data, heading)
 \value{
 If no lines to check an empty document. Else, a table with potential
 mistakes in PJS. \code{standardize_columns} is used to standardize column
-names.
+names and the heading is the table caption.
 }
 \description{
 Write a table with data that should be checked by those responsible

@@ -77,17 +77,5 @@ ktr <- PJSdata %>%
                                   new_column = c("art")) 
 
 # Remove heading if no data to report
-OKcheck::write_data_for_checking(data = ktr, heading = heading)
-#if (dim(ktr)[1] == 0) {
-#  heading <- ""
-#}
-#knitr::asis_output(heading) # placed here as kitr::asis_output cannot be within a for-loop or an if-clause
-
-# # Output ktr if any cases need to be checked
-#if (dim(ktr)[1] > 0) {
-#  colnames(ktr) <- NVIdb::standardize_columns(ktr, property = "collabels")
-  
-#  knitr::kable(ktr) %>%
-#    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-#}
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```

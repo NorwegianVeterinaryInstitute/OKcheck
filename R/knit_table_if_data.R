@@ -1,25 +1,29 @@
-#' @title Write table with data that should be checked
-#' @description Write a table with data that should be checked by those responsible
-#'     for entering the data.
-#' @details The data checks PJS-data for potential mistakes. If data with potential
-#'     mistakes are identified, these are reporter in a table. If no mistakes are
-#'     found, no report is created.
+#' @title Knit table if data to report
+#' @description Knit a table using \code{kable} if there are data in the data frame.
+#' @details Knits a table within an rmarkdown document if there are data in the data
+#'     source.
+#'
+#'     The column names are standardized using \code{standardize_columns}. The
+#'     output also includes a table heading.
+#'
+#'     This is primary used in rmarkdown reports for checking PJS-data for
+#'     potential mistakes. If data with potential mistakes are identified, these
+#'     are reported in a table. If no mistakes are found, no report is created.
 #'
 #'     The heading should explain why the data needs to be checked so that the
 #'     laboratory should know what to change in the source data, i.e. PJS.
 #'
-#' @param data data.frame with data that should be checked by the laboratory.
-#' @param heading Table title and text.
+#' @param data data.frame with or without data.
+#' @param heading Table title and caption.
 #'
 #' @importFrom magrittr %>%
 #'
-#' @return If no lines to check an empty document. Else, a table with potential
-#'      mistakes in PJS. \code{standardize_columns} is used to standardize column
-#'      names and the heading is the table caption.
+#' @return A knitted table formatted by kable for output from rmarkdown. If no
+#'      data in the data source, an empty document.
 #' @export
 
 
-write_data_for_checking <- function(data, heading) {
+knit_table_if_data <- function(data, heading) {
   # ARGUMENT CHECKING ----
   # Object to store check-results
   checks <- checkmate::makeAssertCollection()

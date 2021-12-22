@@ -18,5 +18,5 @@ ktr <- PJSdata %>%
                                   code_colname = c("sakskonkl_kjennelsekode", "sakskonkl_analyttkode"),
                                   new_column = c("sakskonkl_kjennelse", "sakskonkl_analytt")) 
 # Remove heading if no data to report
-OKcheck::write_data_for_checking(data = ktr, heading = heading)
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```

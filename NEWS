@@ -1,0 +1,13 @@
+OKcheck 0.1.0 - (2022-01-07)
+
+First release:
+  
+  Tools to facilitate checking of data from National Surveillance Programmes.
+
+- 'count_PJScodes' gives an overview of codes used for a variable.
+
+- 'find_accepted_codes' look up in a table with accepted codes and returns the accepted codes. Combinations of variables are not supported yet.
+
+- 'knit_table_if_data' Knits a table with heading if there are data. Used in the Rmarkdown-documents to ensure that a report is only generated when there are something to report. 
+
+- 'OK_check_data.Rmd' and child Rmd-files checks PJS-data to identify registrations that are wrong. 

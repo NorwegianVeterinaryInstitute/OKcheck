@@ -1,0 +1,47 @@
+
+```{r, echo = F}
+# PRØVER MED MISSING ART
+
+heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
+                 "<h4> Tabell P-1. Pr\u00F8ver der art er feil eller som mangler opplysning om arten </h4>",
+                 "<h5> Ber om at korrekt art legges inn. </h5>")
+
+# Identify cases that need to be checked
+# art2accept includes valid species to be controlled for.
+# # if art2accept is not given, there is only performed control for missing values
+# if (!exists("art2accept")) {art2accept <- ""}
+art2accept <- find_accepted_code(data = accepted_codes, purpose = purpose, codetype = "artkode") 
+
+art2accept <- paste0("^", art2accept)
+art2accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = art2accept, fixed = TRUE)
+
+ktr <- PJSdata %>%
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, artkode) %>%
+  # dplyr::mutate(artkode = case_when(is.na(artkode) ~ "",
+  #                                   TRUE ~ artkode)) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(accepted = max(unlist(lapply(art2accept, grep, x = artkode)),0)) %>%
+  dplyr::filter(accepted == 0) %>%
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) %>%
+  dplyr::distinct() %>%
+  # all provenr per sak into one variable
+  # All provenr for one sak on one row
+  tidyr::pivot_wider(id_cols = c(saksnr, artkode),
+                     names_from = provenr,
+                     values_from = provenr,
+                     names_prefix = "p") %>%
+  dplyr::rowwise() %>%
+  # Combine all provenr into one variable
+  dplyr::mutate(provenr = toString(c_across(starts_with("p")))) %>%
+  # Keep all provenr and remove provenr with NA
+  dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
+  dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
+  dplyr::select(saksnr, provenr, artkode) %>%
+  NVIdb::add_PJS_code_description(PJS_variable_type = c("art"),
+                                  code_colname = c("artkode"),
+                                  new_column = c("art")) 
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```

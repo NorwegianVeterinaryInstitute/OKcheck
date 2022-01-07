@@ -1,0 +1,25 @@
+```{r, echo = F}
+# Prøver med mer enn en konklusjonskjennelse for identiske konklusjonsanalytter og der konklusjonskjennelsene er motstridende
+
+heading <- paste("<br/> <br/>",
+                 "<h4> Tabell K-4. Pr\u00F8ver med mer enn \u00E9n konklusjonskjennelse for identiske konklusjonsanalytter og",
+                 "der konklusjonskjennelsene er motstridende </h4>",
+                 "<h5> En pr\u00F8ve kan ikke konkluderes med motstridende pr\u00F8vekonklusjoner for samme pr\u00F8veanalytt.",
+                 "Ber om at de pr\u00F8vekonklusjonene som er feil, fjernes fra saken. </h5>")
+
+# Identify cases that need to be checked
+ktr <- PJSdata %>%
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_kjennelsekode, konkl_analyttkode) %>%
+  dplyr::distinct() %>%
+  dplyr::add_count(saksnr, provenr, konkl_analyttkode) %>%
+  dplyr::filter(n > 1) %>%
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, n)) %>%
+  NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
+                                  code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
+                                  new_column = c("konkl_kjennelse", "konkl_analytt")) 
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+

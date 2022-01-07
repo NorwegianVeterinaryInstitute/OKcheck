@@ -24,14 +24,18 @@ Imports:
     kableExtra,
     knitr,
     magrittr,
+    tidyr,
     NVIcheckmate (>= 0.3.3),
     NVIdb
 Remotes: 
     github::NorwegianVeterinaryInstitute/NVIcheckmate,
     github::NorwegianVeterinaryInstitute/NVIdb
 Suggests: 
+    covr,
+    devtools,
     rmarkdown,
     testthat (>= 3.0.0),
+    utils,
     NVIpackager
 VignetteBuilder: knitr
 Config/testthat/edition: 3

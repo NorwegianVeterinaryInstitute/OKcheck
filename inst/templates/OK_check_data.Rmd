@@ -12,23 +12,20 @@ options(width = 1000)
 
 ```{r setup, include=FALSE}
 
-# set_title: "My Title!"
-# author: "Petter Hopp, seksjon for epidemiologi, Veterinærinstituttet"
-
-#Load packages
+# Attach packages
 library(NVIbatch)
-use_pkg(pkg = c("dplyr", "tidyr", "data.table", "knitr", "kableExtra"))
+use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra"))
 use_NVIverse(pkg = c("NVIdb", "OKcheck"))
 
 # Global variables
-#For use in filenames
+# For use in filenames
 today <- format(Sys.Date(), "%Y%m%d")
-# domene <- sub("Rscripts","",dirname(rstudioapi::getSourceEditorContext()$path))
 
 # Import support data
 # Translation table for PJS-codes
 PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
 
+# Table with accepted code combinations per OK-program (purpose)
 accepted_codes <- openxlsx::read.xlsx(xlsxFile = paste0(NVIdb::set_dir_NVI("OKprogrammer"),
                                                         "OKstatistikkApp/Stottedata/Kontrolltabeller_PJS_", 
                                                         aar, 

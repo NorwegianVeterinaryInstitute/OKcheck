@@ -1,0 +1,24 @@
+```{r, echo = F}
+# Saker med mer enn en sakskonklusjon for identiske saksanalytter 
+
+heading <- paste("<br/> <br/>",
+                 "<h4> Tabell K-1. Saker med mer enn \u00E9n sakskonklusjon for identiske saksanalytter og",
+                 "der sakskonkklusjonene er motstridende </h4>",
+                 "<h5> En sak kan ikke konkluderes med motstridende sakskonklusjoner for samme saksanalytt.",
+                 "Ber om at de sakskonklusjonene som er feil, fjernes fra saken. </h5>")
+
+# Identify cases that need to be checked
+ktr <- PJSdata %>%
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, sakskonkl_kjennelsekode, sakskonkl_analyttkode) %>%
+  dplyr::distinct() %>%
+  dplyr::add_count(saksnr, sakskonkl_analyttkode) %>%
+  dplyr::filter(n > 1) %>%
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr) %>%
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, n)) %>%
+  NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
+                                  code_colname = c("sakskonkl_kjennelsekode", "sakskonkl_analyttkode"),
+                                  new_column = c("sakskonkl_kjennelse", "sakskonkl_analytt")) 
+
+# Report data with heading if any data to check
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```

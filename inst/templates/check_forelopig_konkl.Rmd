@@ -1,0 +1,22 @@
+```{r, echo = F}
+# Prøver med forelopig konklusjon
+
+heading <- paste("<br/> <br/>",
+                 "<h4> Tabell K-5. Avsluttede saker som har pr\u00F8ver med forel\u00F8pig konklusjon </h4>",
+                 "<h5> Ber om at det sjekkes om pr\u00F8ven er ferdig unders\u00F8kt,",
+                 "og at konklusjonstypen i så fall oppdateres </h5>")
+
+# Identify cases that need to be checked
+ktr <- PJSdata %>%
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_type, konkl_kjennelsekode, konkl_analyttkode, avsluttet) %>%
+  dplyr::distinct() %>%
+  dplyr::filter(konkl_type == 3 & !is.na(avsluttet)) %>%
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, avsluttet)) %>%
+  NVIdb::add_PJS_code_description(PJS_variable_type = c("konkl_type", "kjennelse", "analytt"),
+                                  code_colname = c("konkl_type", "konkl_kjennelsekode", "konkl_analyttkode"),
+                                  new_column = c("type","konkl_kjennelse", "konkl_analytt")) 
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```

@@ -1,74 +1,40 @@
----
-output:
-  html_document:
-    theme: sandstone
-params: 
-    set_title: !r paste("Kontroll av PJS-data for:", purpose, aar)
-title: "`r params$set_title`"
----
-```{r set-options, echo=FALSE, cache=FALSE}
-options(width = 1000)
-```
 
-```{r setup, include=FALSE}
-
-    # set_title: "My Title!"
-
-# "Kontroll av PJS-data for OK-programmer"
-# title: Kontroll av PJS-data for: `r purpose` `r aar`
-# author: "Seksjon for epidemiologi, Veterinærinstituttet"
-#Load packages
-library(dplyr)
-library(tidyr)
-# library(openxlsx)
-# require("stringr")
-library(knitr)
-library(kableExtra)
-# library(ggplot2)
-# library(tidyr)
-# library(gtools)
-library(NVIdb)
-
-# Global variables
-#For use in filenames
-today <- format(Sys.Date(), "%Y%m%d")
-# domene <- sub("Rscripts","",dirname(rstudioapi::getSourceEditorContext()$path))
-
-knitr::opts_chunk$set(echo=TRUE)
-```
-
-
-```{r, include = FALSE}
-# Import support data
-# Translation table for PJS-codes
-PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
-
-## Kontroll av PJS-data for: `r purpose` `r aar`   
-
-```
-
-
-### Resultat av kontroll for manglende eller feil prøveopplysninger per `r format(Sys.Date(), "%d.%m.%Y")`   
 ```{r, echo = F}
 # PRØVER MED MISSING ART
 
 heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
-                 "<h4> Tabell 1. Prøver som mangler opplysning om art eller der art er feil </h4>",
-                 "<h5> Ber om at art legges inn. </h5>")
+                 "<h4> Tabell P-1. Pr\u00F8ver der art er feil eller som mangler opplysning om arten </h4>",
+                 "<h5> Ber om at korrekt art legges inn. </h5>")
 
 # Identify cases that need to be checked
+# art2accept includes valid species to be controlled for.
+# # if art2accept is not given, there is only performed control for missing values
+# if (!exists("art2accept")) {art2accept <- ""}
+art2accept <- find_accepted_code(data = accepted_codes, purpose = purpose, codetype = "artkode") 
+
+art2accept <- paste0("^", art2accept)
+art2accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = art2accept, fixed = TRUE)
+
 ktr <- PJSdata %>%
   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, artkode) %>%
-  dplyr::filter(is.na(artkode)) %>%
+  # dplyr::mutate(artkode = case_when(is.na(artkode) ~ "",
+  #                                   TRUE ~ artkode)) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(accepted = max(unlist(lapply(art2accept, grep, x = artkode)),0)) %>%
+  dplyr::filter(accepted == 0) %>%
   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) %>%
   dplyr::distinct() %>%
+  # all provenr per sak into one variable
+  # All provenr for one sak on one row
   tidyr::pivot_wider(id_cols = c(saksnr, artkode),
                      names_from = provenr,
                      values_from = provenr,
-                     names_prefix = "P") %>%
+                     names_prefix = "p") %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(provenr = toString(c_across(starts_with("P")))) %>%
+  # Combine all provenr into one variable
+  dplyr::mutate(provenr = toString(c_across(starts_with("p")))) %>%
+  # Keep all provenr and remove provenr with NA
   dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
   dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
   dplyr::select(saksnr, provenr, artkode) %>%

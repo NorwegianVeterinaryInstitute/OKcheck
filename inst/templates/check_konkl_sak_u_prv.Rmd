@@ -1,8 +1,10 @@
 ```{r, echo = F}
-# Saker med sakskonklusjon som ikke er benyttet som prøvekonklusjon på noen av prøvene
+# Saker med sakskonklusjon som ikke er benyttet som provekonklusjon på noen av provene
 heading <- paste("<br/> <br/>",
-                 "<h4> Tabell 3. Saker med sakskonklusjon som ikke er benyttet som prøvekonklusjon på noen av prøvene </h4>",
-                 "<h5> Ber om at det sjekkes at sakskonklusjonen er korrekt. </h5>")
+                 "<h4> Tabell K-2. Saker med sakskonklusjon hvor ingen pr\u00F8ver har tilsvarende pr\u00F8vekonklusjon </h4>",
+                 "<h5> Normalt vil sakskonklusjonen v\u00E6re basert på pr\u00F8vekonklusjonene.",
+                 "Ber om at det sjekkes at sakskonklusjonen er korrekt. </h5>")
+
 # Identify cases that need to be checked
 prvkonkl <- unique(paste(PJSdata$saksnr, PJSdata$konkl_kjennelsekode, PJSdata$konkl_analyttkode, sep = "-"))
 ktr <- PJSdata %>%
@@ -17,6 +19,7 @@ ktr <- PJSdata %>%
   NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                   code_colname = c("sakskonkl_kjennelsekode", "sakskonkl_analyttkode"),
                                   new_column = c("sakskonkl_kjennelse", "sakskonkl_analytt")) 
-# Remove heading if no data to report
+
+# Generate table with heading if data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```

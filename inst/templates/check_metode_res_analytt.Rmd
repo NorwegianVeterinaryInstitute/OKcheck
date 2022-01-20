@@ -1,0 +1,43 @@
+
+```{r, echo = F}
+# SAMPLES WITH MISSING OR WRONG PJS-CODE
+
+heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
+                 "<h4> Tabell U-1. Avlsluttede saker med unders\u00F8kelser der resultatanalytten ikke samsvarer med metoden som er brukt.</h4>",
+                 "<h5> Ber om at metode og resultatanalytt sjekkes.",
+                 "Hvis resultat mangler, bes det om at resultat legges inn eller vurderes om unders\u00F8kelsen skal slettes. </h5>")
+
+# Identify cases that need to be checked
+# art2accept includes valid species to be controlled for.
+# # if art2accept is not given, there is only performed control for missing values
+# if (!exists("art2accept")) {art2accept <- ""}
+code_2_accept <- find_accepted_code(data = accepted_codes, purpose = purpose, code_variable = c("metodekode", "res_analyttkode") )
+
+# Check is only done when values in code_2_accept
+if (length(code_2_accept) > 0) {
+  code_2_accept <- paste0("^", code_2_accept)
+  code_2_accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = code_2_accept, fixed = TRUE)
+  
+  ktr <- PJSdata[, c("saksnr", "aar", "ansvarlig_seksjon", "innsendelsenr", "provenr", "delprovenr", "undnr",
+                     "avsluttet", "hensiktkode", "metodekode", "res_kjennelsekode", "res_analyttkode")] 
+  ktr$index <- paste(ktr$hensiktkode, ktr$metodekode, ktr$res_analyttkode, sep = "-")
+  
+  
+  ktr <- ktr %>%
+    dplyr::rowwise() %>%
+    dplyr::filter(!is.na(metodekode) & !is.na(avsluttet)) %>%
+    dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = index)),0)) %>%
+    dplyr::filter(accepted == 0) %>%
+    dplyr::filter(res_analyttkode != "missing" | (res_analyttkode == "missing" & substr(res_kjennelsekode, 1, 2) != "01")) %>%
+    dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr, delprovenr, undnr) %>%
+    dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) %>%
+    dplyr::distinct() %>%
+    dplyr::select(saksnr, provenr, delprovenr, undnr, hensiktkode, metodekode, res_analyttkode) %>%
+    NVIdb::add_PJS_code_description(PJS_variable_type = c("hensikt", "metode", "analytt"),
+                                    code_colname = c("hensiktkode", "metodekode", "res_analyttkode"),
+                                    new_column = c("hensikt", "metode", "res_analytt")) 
+} else { ktr <- data.frame()}
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```

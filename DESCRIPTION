@@ -24,16 +24,21 @@ Imports:
     kableExtra,
     knitr,
     magrittr,
+    rlang,
+    rmarkdown,
+    shiny,
     tidyr,
     NVIcheckmate (>= 0.3.3),
-    NVIdb
+    NVIdb,
+    NVIrpackages
 Remotes: 
     github::NorwegianVeterinaryInstitute/NVIcheckmate,
-    github::NorwegianVeterinaryInstitute/NVIdb
+    github::NorwegianVeterinaryInstitute/NVIdb,
+    github::NorwegianVeterinaryInstitute/NVIpackager,
+    github::NorwegianVeterinaryInstitute/NVIrpackages
 Suggests: 
     covr,
     devtools,
-    rmarkdown,
     testthat (>= 3.0.0),
     utils,
     NVIpackager

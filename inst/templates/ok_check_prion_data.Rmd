@@ -1,0 +1,67 @@
+---
+output:
+  html_document:
+    theme: sandstone
+params: 
+    set_title: !r paste("Kontroll av PJS-data for:", purpose, aar)
+title: "`r params$set_title`"
+---
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 1000)
+```
+
+```{r setup, include=FALSE}
+
+# Attach packages
+library(NVIbatch)
+use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra"))
+use_NVIverse(pkg = c("NVIdb", "OKcheck"))
+
+# Global variables
+# For use in filenames
+today <- format(Sys.Date(), "%Y%m%d")
+
+# Import support data
+# Translation table for PJS-codes
+PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+
+# Table with accepted code combinations per OK-program (purpose)
+accepted_codes <- openxlsx::read.xlsx(xlsxFile = paste0(NVIdb::set_dir_NVI("OKprogrammer"),
+                                                                "OKstatistikkApp/Stottedata/Kontrolltabeller_PJS_", 
+                                                                aar, 
+                                                                ".xlsx"),
+                                              detectDates = TRUE)
+
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+```{r, include = FALSE}
+## Kontroll av PJS-data for: `r purpose` `r aar` per `r format(Sys.Date(), "%d.%m.%Y")`
+
+```
+
+<!-- Tabell I-1. Saker som ikke er avsluttet -->
+```{r child=system.file('templates', "check_avsluttet.Rmd", package = "OKcheck")}
+```
+
+<!-- Tabell P-1. Saker med feil eller manglende art -->
+```{r child=system.file('templates', "check_art.Rmd", package = "OKcheck")}
+```
+
+<!-- Tabell K-1. Prover med konklusjonsanalytt som ikke er en del av programmet -->
+```{r child=system.file('templates', "check_konkl_analytt.Rmd", package = "OKcheck")}
+```
+
+<!-- Tabell U-1. Undersokelser med resultatanalytt som ikke samsvarer med metoden -->
+```{r child=system.file('templates', "check_metode_res_analytt.Rmd", package = "OKcheck")}
+```
+
+
+<!-- Tabell K-4. Prover med mer enn en provekonklusjon for identiske proveanalytter -->
+```{r child=system.file('templates', "check_doubble_prv_konkl.Rmd", package = "OKcheck")}
+```
+
+<!-- Tabell K-5. Prover med forelopig konklusjon -->
+```{r child=system.file('templates', "check_forelopig_konkl.Rmd", package = "OKcheck")}
+```
+

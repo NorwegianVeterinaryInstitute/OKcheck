@@ -4,14 +4,14 @@
 \alias{find_accepted_code}
 \title{Finds accepted PJS-codes}
 \usage{
-find_accepted_code(data, purpose, codetype)
+find_accepted_code(data, purpose, code_variable)
 }
 \arguments{
 \item{data}{Data frame with accepted PJS-codes.}
 
 \item{purpose}{The purpose for which accepted PJS-codes should be found.}
 
-\item{codetype}{The type of PJS-code.}
+\item{code_variable}{Vector with the combinations of PJS-code types that should be checked.}
 }
 \value{
 A vector with accepted code combinations.

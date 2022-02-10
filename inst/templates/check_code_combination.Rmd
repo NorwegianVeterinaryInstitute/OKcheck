@@ -1,0 +1,93 @@
+
+```{r, echo = F}
+# SAMPLES WITH MISSING OR WRONG PJS-CODE
+
+# heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
+#                  "<h4> Tabell U-1. Avlsluttede saker med unders\u00F8kelser der resultatanalytten ikke samsvarer med metoden som er brukt.</h4>",
+#                  "<h5> Ber om at metode og resultatanalytt sjekkes.",
+#                  "Hvis resultat mangler, bes det om at resultat legges inn eller vurderes om unders\u00F8kelsen skal slettes. </h5>")
+
+
+  # Find the accepted codes for the current combination of variables
+  code_2_accept <- find_accepted_code(data = accepted_codes, purpose = purpose, code_variable = code_variable)
+
+
+# Check is only done when values in code_2_accept
+  if (length(code_2_accept) > 0) {
+    # transform code_2_accept to regular expressions
+    code_2_accept <- paste0("^", code_2_accept)
+    code_2_accept <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = code_2_accept, fixed = TRUE)
+  
+    # Identifies all variables in the index taking into consideration the PJS-levels of the code_variable(s)
+    index <- c("aar", "ansvarlig_seksjon", "innsendelsenr")
+    for (k in 1:length(code_variable)) {
+      index <- union(index,
+                     NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == code_variable[k]), ] == 1)] == 1), "variable"])
+    }
+    # Keeps only variables that exist in PJSdata. Necessary as resnr will not be in PJSdata.
+    index <- base::intersect(index, colnames(PJSdata))
+
+# Generete data frame for check that only contains the relevant variables
+    ktr <- PJSdata[, c("saksnr", index, "hensiktkode", code_variable)]
+    ktr <- unique(ktr)
+    
+    # Exclude saker that is not avsluttet?
+    #   ktr <- ktr %>%
+    # dplyr::filter(!is.na(metodekode) & !is.na(avsluttet)) %>%
+    # dplyr::filter(res_analyttkode != "missing" | (res_analyttkode == "missing" & substr(res_kjennelsekode, 1, 2) != "01"))
+
+    
+    # Combine the codes that should be checked into one variable
+    ktr$combined_codes <- apply(ktr[, c("hensiktkode", code_variable)], 1, FUN = paste, collapse = "-")
+
+
+    # Find records deviating from accepted code values
+    ktr <- ktr %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = combined_codes)),0)) %>%
+      dplyr::filter(accepted == 0) %>%
+      dplyr::select(-c(combined_codes, accepted)) %>%
+      dplyr::distinct() %>%
+      dplyr::arrange(across(all_of(index)))
+
+    # if prove-level, put all records within same saksnr and code_variable on a single row
+    # all provenr per sak into one variable
+    # All provenr for one sak on one row
+    if (base::setequal(index, c("aar", "ansvarlig_seksjon", "innsendelsenr", "provenr"))) {
+      ktr <- ktr %>%
+        dplyr::arrange(across(all_of(c("aar", "ansvarlig_seksjon", "innsendelsenr", code_variable)))) %>%
+        tidyr::pivot_wider(id_cols = all_of(c("aar", "ansvarlig_seksjon", "innsendelsenr", "saksnr",  "hensiktkode", code_variable)),
+                           names_from = provenr,
+                           values_from = provenr,
+                           names_prefix = "p") %>%
+        dplyr::rowwise() %>%
+        # Combine all provenr into one variable
+        dplyr::mutate(provenr = toString(c_across(starts_with("p")))) %>%
+        # Keep all provenr and remove provenr with NA
+        dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
+        dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]"))
+
+      ktr <- ktr[, c("saksnr", index, "hensiktkode", code_variable)]
+      # ktr <- ktr[, c( "provenr", "hensiktkode", code_variable)]
+    }
+
+    ktr <- dplyr::select(ktr, -c(aar, ansvarlig_seksjon, innsendelsenr))
+
+    # Add description text to PJS-codes
+    for (j in c("hensiktkode", code_variable)) {
+      if (j %in% names(PJS_codetype)) {
+        ktr <- NVIdb::add_PJS_code_description(data = ktr,
+                                               translation_table = PJS_codes_2_text,
+                                               PJS_variable_type = PJS_codetype[j],
+                                               code_colname = j,
+                                               new_column = sub("kode", "", j))
+      }
+    }
+
+  
+
+} else { ktr <- data.frame()}
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```

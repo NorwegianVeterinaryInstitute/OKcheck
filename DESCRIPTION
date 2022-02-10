@@ -40,7 +40,10 @@ Suggests:
     covr,
     devtools,
     testthat (>= 3.0.0),
+    usethis,
     utils,
     NVIpackager
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Depends: 
+    R (>= 4.0)

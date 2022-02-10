@@ -4,3 +4,4 @@
 ^notes$
 ^CONTRIBUTING\.md$
 ^README\.Rmd$
+^data-raw$

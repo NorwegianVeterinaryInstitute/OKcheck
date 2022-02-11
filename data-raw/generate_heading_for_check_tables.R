@@ -8,7 +8,9 @@ write.csv2(heading_for_check_tables,
            row.names = FALSE, 
            fileEncoding = "UTF-8")
 
-rm(heading_for_check_tables)
-
 # Save in package
 usethis::use_data(heading_for_check_tables, overwrite = TRUE)
+
+
+rm(heading_for_check_tables)
+

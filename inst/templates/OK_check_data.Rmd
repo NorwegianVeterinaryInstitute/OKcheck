@@ -27,10 +27,10 @@ PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
 
 # Table with accepted code combinations per OK-program (purpose)
 accepted_codes <- openxlsx::read.xlsx(xlsxFile = paste0(NVIdb::set_dir_NVI("OKprogrammer"),
-                                                                "OKstatistikkApp/Stottedata/Kontrolltabeller_PJS_", 
-                                                                aar, 
-                                                                ".xlsx"),
-                                              detectDates = TRUE)
+                                                        "OKstatistikkApp/Stottedata/Kontrolltabeller_PJS_", 
+                                                        aar, 
+                                                        ".xlsx"),
+                                      detectDates = TRUE)
 
 accepted_codes <- subset(accepted_codes, accepted_codes$program == purpose)
 
@@ -49,7 +49,10 @@ knitr::opts_chunk$set(echo=TRUE)
 <!-- Check code combinations -->
 ```{r echo = FALSE}
 # All combinations of variables that should be checked
-variable_names <- c("artkode", "driftsformkode", "metodekode", "res_analyttkode", "konkl_analyttkode")
+variable_names <- c("artkode", "driftsformkode", "provetypekode", "provematerialekode", 
+                    "konkl_kjennelsekode", "konkl_analyttkode", 
+                    "metodekode", 
+                    "res_kjennelsekode", "res_analyttkode")
 combinations <- unique(accepted_codes[, c("var1", "var2", "var3")])
 combinations <- subset(combinations, 
                        combinations$var1 %in% variable_names &
@@ -74,14 +77,8 @@ PJS_codetype <- c("ansvarlig_seksjon" = "seksjon",
 
 # Prepare for first call to child
 # Find code combination
-  code_variable <- as.vector(t(combinations[1,]))
-  code_variable <- subset(code_variable, !is.na(code_variable))
-  
-  # Generate relevant heading
-  heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
-                 "<h4> Tabell U-1. Avlsluttede saker med unders\u00F8kelser der resultatanalytten ikke samsvarer med metoden som er brukt.</h4>",
-                 "<h5> Ber om at metode og resultatanalytt sjekkes.",
-                 "Hvis resultat mangler, bes det om at resultat legges inn eller vurderes om unders\u00F8kelsen skal slettes. </h5>")
+code_variable <- as.vector(t(combinations[1,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
 ```
 <!-- Check first code combination -->
 ```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
@@ -90,28 +87,55 @@ PJS_codetype <- c("ansvarlig_seksjon" = "seksjon",
 <!-- Check code combinations -->
 ```{r echo = FALSE}
 # Find code combination
-  code_variable <- as.vector(t(combinations[2,]))
-  code_variable <- subset(code_variable, !is.na(code_variable))
-  
-  # Generate relevant heading
-  heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
-                 "<h4> Tabell U-1. Avlsluttede saker med unders\u00F8kelser der resultatanalytten ikke samsvarer med metoden som er brukt.</h4>",
-                 "<h5> Ber om at metode og resultatanalytt sjekkes.",
-                 "Hvis resultat mangler, bes det om at resultat legges inn eller vurderes om unders\u00F8kelsen skal slettes. </h5>")
+code_variable <- as.vector(t(combinations[2,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
 ```
 <!-- Check second code combination -->
 ```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
 ```
-<!-- Tabell P-1. Saker med feil eller manglende art -->
-```{r child=system.file('templates', "check_art.Rmd", package = "OKcheck")}
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[3,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[4,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[5,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[6,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
 ```
 
 <!-- Tabell K-1. Prover med konklusjonsanalytt som ikke er en del av programmet -->
 ```{r child=system.file('templates', "check_konkl_analytt.Rmd", package = "OKcheck")}
-```
-
-<!-- Tabell U-1. Undersokelser med resultatanalytt som ikke samsvarer med metoden -->
-```{r child=system.file('templates', "check_metode_res_analytt.Rmd", package = "OKcheck")}
 ```
 
 <!-- Tabell K-1. Saker med mer enn en sakskonklusjon for identiske saksanalytter -->

@@ -66,14 +66,14 @@ combinations <- rbind(combinations,
                                            dimnames = list(NULL, c("var1", "var2", "var3")))))
 
 # Relation between column name and pJS-type as used by NVIdb::add_PJS_code_description below 
-PJS_codetype <- c("ansvarlig_seksjon" = "seksjon", 
-                  "hensiktkode" = "hensikt",
-                  "artkode" = "art", "driftsformkode" = "driftsform", 
-                  "provetypekode" = "provetype", "provematerialekode" = "provemateriale",
-                  "metodekode" = "metode", 
-                  "konkl_kjennelsekode" = "kjennelse", "konkl_analyttkode" = "analytt", 
-                  "res_kjennelsekode" = "kjennelse", "res_analyttkode" = "analytt",
-                  "konkl_type" = "konkl_type", "eier_lokalitetstype" = "registertype")
+PJS_code_variables <- c("ansvarlig_seksjon", 
+                        "hensiktkode",
+                        "artkode", "driftsformkode", "oppstalling",
+                        "provetypekode", "provematerialekode",
+                        "metodekode", 
+                        "konkl_kjennelsekode", "konkl_analyttkode", 
+                        "res_kjennelsekode", "res_analyttkode",
+                        "konkl_type", "eier_lokalitetstype")
 
 # Prepare for first call to child
 # Find code combination

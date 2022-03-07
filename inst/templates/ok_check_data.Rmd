@@ -134,6 +134,46 @@ code_variable <- subset(code_variable, !is.na(code_variable))
 ```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
 ```
 
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[7,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[8,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[9,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[10,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
 <!-- Tabell K-1. Prover med konklusjonsanalytt som ikke er en del av programmet -->
 ```{r child=system.file('templates', "check_konkl_analytt.Rmd", package = "OKcheck")}
 ```

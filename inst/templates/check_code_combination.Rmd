@@ -38,13 +38,13 @@ if (length(code_2_accept) > 0) {
   index <- c("aar", "ansvarlig_seksjon", "innsendelsenr")
   for (k in 1:length(code_variable)) {
     index <- union(index,
-                   NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == code_variable[k]), ] == 1)] == 1), "variable"])
+                   NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:8, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == code_variable[k]), ] == 1)[1]] == 1), "variable"])
   }
   # Keeps only variables that exist in PJSdata. Necessary as resnr will not be in PJSdata.
   index <- base::intersect(index, colnames(PJSdata))
   
   # Generete data frame for check that only contains the relevant variables
-  ktr <- PJSdata[, c("saksnr", index, "hensiktkode", "avsluttet", code_variable)]
+  ktr <- PJSdata[, unique(c("saksnr", index, "hensiktkode", "avsluttet", code_variable))]
   ktr <- unique(ktr)
   
   # Exclude saker that is not avsluttet

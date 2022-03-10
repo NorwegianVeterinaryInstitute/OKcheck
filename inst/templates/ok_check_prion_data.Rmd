@@ -48,10 +48,14 @@ knitr::opts_chunk$set(echo=TRUE)
 <!-- Check code combinations -->
 ```{r echo = FALSE}
 # All combinations of variables that should be checked
-variable_names <- c("artkode", "driftsformkode", "provetypekode", "provematerialekode", 
-                    "konkl_kjennelsekode", "konkl_analyttkode", 
-                    "metodekode", 
-                    "res_kjennelsekode", "res_analyttkode")
+variable_names <- c("ansvarlig_seksjon", "utf_seksjon", 
+                        "hensiktkode", "rekvirenttype", "eier_lokalitettype", "annen_aktortype",
+                        "artkode", "driftsformkode", "oppstallingkode", "fysiologisk_stadiumkode", "kjonn",
+                        "provetypekode", "provematerialekode", "forbehandlingkode",
+                        "metodekode", 
+                        "konkl_typekode", "konkl_kjennelsekode", "konkl_analyttkode", 
+                        "res_kjennelsekode", "res_analyttkode")
+
 combinations <- unique(accepted_codes[, c("var1", "var2", "var3")])
 combinations <- subset(combinations, 
                        combinations$var1 %in% variable_names &
@@ -65,14 +69,13 @@ combinations <- rbind(combinations,
                                            dimnames = list(NULL, c("var1", "var2", "var3")))))
 
 # Relation between column name and pJS-type as used by NVIdb::add_PJS_code_description below 
-PJS_codetype <- c("ansvarlig_seksjon" = "seksjon", 
-                  "hensiktkode" = "hensikt",
-                  "artkode" = "art", "driftsformkode" = "driftsform", 
-                  "provetypekode" = "provetype", "provematerialekode" = "provemateriale",
-                  "metodekode" = "metode", 
-                  "konkl_kjennelsekode" = "kjennelse", "konkl_analyttkode" = "analytt", 
-                  "res_kjennelsekode" = "kjennelse", "res_analyttkode" = "analytt",
-                  "konkl_type" = "konkl_type", "eier_lokalitetstype" = "registertype")
+PJS_code_variables <- c("hensiktkode", "rekvirenttype", "eier_lokalitettype", "annen_aktortype",
+                        "artkode", "driftsformkode", "oppstallingkode", "fysiologisk_stadiumkode", "kjonn",
+                        "provetypekode", "provematerialekode", "forbehandlingkode",
+                        "utf_seksjon",
+                        "metodekode",
+                        "konkl_typekode", "konkl_kjennelsekode", "konkl_analyttkode",
+                        "res_kjennelsekode", "res_analyttkode")
 
 # Prepare for first call to child
 # Find code combination
@@ -127,6 +130,46 @@ code_variable <- subset(code_variable, !is.na(code_variable))
 ```{r echo = FALSE}
 # Find code combination
 code_variable <- as.vector(t(combinations[6,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[7,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[8,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[9,]))
+code_variable <- subset(code_variable, !is.na(code_variable))
+```
+<!-- Check second code combination -->
+```{r child=system.file('templates', "check_code_combination.Rmd", package = "OKcheck")}
+```
+
+<!-- Check code combinations -->
+```{r echo = FALSE}
+# Find code combination
+code_variable <- as.vector(t(combinations[10,]))
 code_variable <- subset(code_variable, !is.na(code_variable))
 ```
 <!-- Check second code combination -->

@@ -21,8 +21,6 @@ use_NVIverse(pkg = c("NVIdb", "OKcheck"))
 # For use in filenames
 today <- format(Sys.Date(), "%Y%m%d")
 
-accept <- "accept_always"
-
 # Import support data
 # Translation table for PJS-codes
 PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()

@@ -3,13 +3,13 @@
 # SAMPLES WITH MISSING OR WRONG PJS-CODE
 
 env <- environment()
-heading_info <- subset(heading_for_check_tables, 
-                       heading_for_check_tables$purpose == get('purpose',env) & 
-                         heading_for_check_tables$variable_combination == paste(code_variable, collapse = "-"))
+heading_info <- subset(OKcheck::heading_for_check_tables, 
+                       OKcheck::heading_for_check_tables$purpose == get('purpose',env) & 
+                         OKcheck::heading_for_check_tables$variable_combination == paste(code_variable, collapse = "-"))
 if (dim(heading_info)[1] == 0) {
-  heading_info <- subset(heading_for_check_tables, 
-                         heading_for_check_tables$purpose == "general" & 
-                           heading_for_check_tables$variable_combination == paste(code_variable, collapse = "-"))
+  heading_info <- subset(OKcheck::heading_for_check_tables, 
+                         OKcheck::heading_for_check_tables$purpose == "general" & 
+                           OKcheck::heading_for_check_tables$variable_combination == paste(code_variable, collapse = "-"))
 }
 
 # # Should only completed cases be included (1/0)
@@ -95,7 +95,7 @@ if (length(code_2_accept) > 0) {
   
   # Add description text to PJS-codes
   for (j in c("hensiktkode", code_variable)) {
-    if (j %in% PJS_code_variables) {
+    if (j %in% intersect(NVIdb::PJS_code_description_colname$code_colname, colnames(ktr))) {
       ktr <- NVIdb::add_PJS_code_description(data = ktr,
                                              translation_table = PJS_codes_2_text,
                                              PJS_variable_type = "auto",

@@ -1,7 +1,7 @@
 Package: OKcheck
 Title: Tools to facilitate checking of data from National Surveillance Programmes
-Version: 0.1.0
-Date: 2022-01-07
+Version: 0.2.0
+Date: 2022-03-14
 Authors@R:
   c(person(given = "Petter",
            family = "Hopp",
@@ -29,7 +29,7 @@ Imports:
     shiny,
     tidyr,
     NVIcheckmate (>= 0.3.3),
-    NVIdb,
+    NVIdb (>= 0.7.0),
     NVIrpackages
 Remotes: 
     github::NorwegianVeterinaryInstitute/NVIcheckmate,

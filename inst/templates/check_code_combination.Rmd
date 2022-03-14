@@ -95,7 +95,7 @@ if (length(code_2_accept) > 0) {
   
   # Add description text to PJS-codes
   for (j in c("hensiktkode", code_variable)) {
-    if (j %in% PJS_code_variables) {
+    if (j %in% intersect(NVIdb::PJS_code_description_colname$code_colname, colnames(ktr))) {
       ktr <- NVIdb::add_PJS_code_description(data = ktr,
                                              translation_table = PJS_codes_2_text,
                                              PJS_variable_type = "auto",

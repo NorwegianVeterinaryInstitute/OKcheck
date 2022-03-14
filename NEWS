@@ -1,3 +1,10 @@
+OKcheck 0.2.1 - (2022-03-14)
+
+Bug fixes:
+
+- The setting of the variable accept was taken out of the package and must be set in the script using the the Rmd-files.
+
+
 OKcheck 0.2.0 - (2022-03-14)
 
 New features:

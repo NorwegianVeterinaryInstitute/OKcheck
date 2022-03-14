@@ -21,8 +21,6 @@ use_NVIverse(pkg = c("NVIdb", "OKcheck"))
 # For use in filenames
 today <- format(Sys.Date(), "%Y%m%d")
 
-accept <- "accept_always"
-
 # Import support data
 # Translation table for PJS-codes
 PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
@@ -72,14 +70,14 @@ combinations <- rbind(combinations,
                                            ncol = 3, 
                                            dimnames = list(NULL, c("var1", "var2", "var3")))))
 
-# Relation between column name and pJS-type as used by NVIdb::add_PJS_code_description below 
-PJS_code_variables <- c("hensiktkode", "rekvirenttype", "eier_lokalitettype", "annen_aktortype",
-                        "artkode", "driftsformkode", "oppstallingkode", "fysiologisk_stadiumkode", "kjonn",
-                        "provetypekode", "provematerialekode", "forbehandlingkode",
-                        "utf_seksjon",
-                        "metodekode",
-                        "konkl_typekode", "konkl_kjennelsekode", "konkl_analyttkode",
-                        "res_kjennelsekode", "res_analyttkode")
+# # Relation between column name and pJS-type as used by NVIdb::add_PJS_code_description below 
+# PJS_code_variables <- c("hensiktkode", "rekvirenttype", "eier_lokalitettype", "annen_aktortype",
+#                         "artkode", "driftsformkode", "oppstallingkode", "fysiologisk_stadiumkode", "kjonn",
+#                         "provetypekode", "provematerialekode", "forbehandlingkode",
+#                         "utf_seksjon",
+#                         "metodekode",
+#                         "konkl_typekode", "konkl_kjennelsekode", "konkl_analyttkode",
+#                         "res_kjennelsekode", "res_analyttkode")
 
 # Prepare for first call to child
 # Find code combination

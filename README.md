@@ -50,7 +50,7 @@ Usage
 
 The `OKcheck` package needs to be attached.
 
-    library(OKcheck)
+    library(NVIdb)
 
 `OKcheck`provide tools to facilitate checking of data from national
 surveillance programmes.
@@ -58,7 +58,7 @@ surveillance programmes.
 The full list of all available functions and datasets can be accessed by
 typing
 
-    help(package = "OKcheck")
+    help(package="OKcheck")
 
 Please check the NEWS for information on new features, bug fixes and
 other changes.
@@ -66,7 +66,7 @@ other changes.
 Copyright and license
 ---------------------
 
-Copyright (c) 2022 Norwegian Veterinary Institute.  
+Copyright (c) 2021 Norwegian Veterinary Institute.  
 Licensed under the BSD\_3\_clause License. See
 [License](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/LICENSE)
 for details.

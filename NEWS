@@ -1,3 +1,19 @@
+OKcheck 0.2.0 - (2022-03-14)
+
+New features:
+
+- 'find_accepted_code' supports combinations of variables.
+
+- 'ok_check_data.Rmd' selects accepted_codes based on 'accept_always' or 'accept_in_auto_check' 
+
+- the child document 'ok_check_combinations.Rmd' checks PJSdata for accepted combinations.
+
+
+Other features:
+
+- OKcheck is dependent on NVIdb >= v0.7.0 due to the dependency of 'NVIdb::add_PJS_code_description' in this version..
+
+  
 OKcheck 0.1.0 - (2022-01-07)
 
 First release:

@@ -1,0 +1,54 @@
+
+```{r, echo = F}
+# SAMPLES WITH MISSING OR WRONG PJS-CODE
+
+# Must rewrite to check for combination of metode and res_analytt. No value of checking metode only.
+
+heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
+                 "<h4> Tabell U-1. Unders\u00F8kelser der metoden ikke er en del av OK-programmet</h4>",
+                 "<h5> Ber om at korrekt metode legges inn. </h5>")
+
+# Identify cases that need to be checked
+# art2accept includes valid species to be controlled for.
+# # if art2accept is not given, there is only performed control for missing values
+# if (!exists("art2accept")) {art2accept <- ""}
+code_2_accept <- find_accepted_code(data = accepted_codes, purpose = purpose, codetype = "metodekode") 
+
+# Check is only done when values in code_2_accept
+if (length(code_2_accept) > 0) {
+code_2_accept <- paste0("^", code_2_accept)
+code_2_accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = code_2_accept, fixed = TRUE)
+
+ktr <- PJSdata %>%
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, delprovenr, undnr, metodekode) %>%
+  # dplyr::mutate(artkode = case_when(is.na(artkode) ~ "",
+  #                                   TRUE ~ artkode)) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = metodekode)),0)) %>%
+  dplyr::filter(accepted == 0) %>%
+  # The sample must have been set up with an examination
+  dplyr::filter(!is.na(undnr)) %>%
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr, delprovenr, undnr) %>%
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) %>%
+  dplyr::distinct() %>%
+  # all provenr per sak into one variable
+  # All provenr for one sak on one row
+  # tidyr::pivot_wider(id_cols = c(saksnr, metodekode),
+  #                    names_from = provenr,
+  #                    values_from = provenr,
+  #                    names_prefix = "p") %>%
+  # dplyr::rowwise() %>%
+  # # Combine all provenr into one variable
+  # dplyr::mutate(provenr = toString(c_across(starts_with("p")))) %>%
+  # # Keep all provenr and remove provenr with NA
+  # dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
+  # dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
+  dplyr::select(saksnr, provenr, delprovenr, undnr, metodekode) %>%
+  NVIdb::add_PJS_code_description(PJS_variable_type = c("metode"),
+                                  code_colname = c("metodekode"),
+                                  new_column = c("metode")) 
+} else { ktr <- data.frame()}
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```

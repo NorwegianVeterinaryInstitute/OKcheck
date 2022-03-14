@@ -10,17 +10,20 @@ heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
 # art2accept includes valid species to be controlled for.
 # # if art2accept is not given, there is only performed control for missing values
 # if (!exists("art2accept")) {art2accept <- ""}
-art2accept <- find_accepted_code(data = accepted_codes, purpose = purpose, codetype = "artkode") 
+code_2_accept <- find_accepted_code(data = accepted_codes, purpose = purpose, code_variable = "artkode") 
 
-art2accept <- paste0("^", art2accept)
-art2accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = art2accept, fixed = TRUE)
+# Check is only done when values in code_2_accept
+if (length(code_2_accept) > 0) {
+code_2_accept <- paste0("^", code_2_accept)
+code_2_accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = code_2_accept, fixed = TRUE)
 
-ktr <- PJSdata %>%
-  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, artkode) %>%
-  # dplyr::mutate(artkode = case_when(is.na(artkode) ~ "",
-  #                                   TRUE ~ artkode)) %>%
+  ktr <- PJSdata[, c("saksnr", "aar", "ansvarlig_seksjon", "innsendelsenr", "provenr", "hensiktkode", "artkode")] 
+  ktr$index <- paste(ktr$hensiktkode, ktr$artkode, sep = "-")
+  
+  
+  ktr <- ktr %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(accepted = max(unlist(lapply(art2accept, grep, x = artkode)),0)) %>%
+  dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = index)),0)) %>%
   dplyr::filter(accepted == 0) %>%
   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) %>%
@@ -41,6 +44,7 @@ ktr <- PJSdata %>%
   NVIdb::add_PJS_code_description(PJS_variable_type = c("art"),
                                   code_colname = c("artkode"),
                                   new_column = c("art")) 
+} else { ktr <- data.frame()}
 
 # Remove heading if no data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)

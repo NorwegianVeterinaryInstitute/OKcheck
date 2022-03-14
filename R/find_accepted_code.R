@@ -7,17 +7,25 @@
 #'
 #' @param data Data frame with accepted PJS-codes.
 #' @param purpose The purpose for which accepted PJS-codes should be found.
-#' @param codetype The type of PJS-code.
+#' @param code_variable Vector with the combinations of PJS-code types that should be checked.
 #'
 #' @return A vector with accepted code combinations.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
 
-find_accepted_code <- function(data, purpose, codetype) {
+find_accepted_code <- function(data, purpose, code_variable) {
   data = subset(data, data$program == purpose)
 
-  accepted_codes <- c(data[which(data$var1 == codetype[1]), "verdi1"])
+  data[which(is.na(data$var2)), c("var2", "verdi2")] <- c("", "")
+  data[which(is.na(data$var3)), c("var3", "verdi3")] <- c("", "")
 
-  return(unique(accepted_codes))
+  code_variable <- c(code_variable, rep("", 3 - length(code_variable)))
+
+  data <- subset(data, data$var1 == code_variable[1] & data$var2 == code_variable[2] & data$var3 == code_variable[3])
+
+  data <- within(data, accepted <- paste(data$hensikt, data$verdi1, data$verdi2, data$verdi3, sep = "-"))
+  data$accepted <- trimws(data$accepted, which = "right", whitespace = "[-]")
+
+  return(unique(data$accepted))
 }

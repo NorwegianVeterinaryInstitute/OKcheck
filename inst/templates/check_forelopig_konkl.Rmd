@@ -8,14 +8,14 @@ heading <- paste("<br/> <br/>",
 
 # Identify cases that need to be checked
 ktr <- PJSdata %>%
-  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_type, konkl_kjennelsekode, konkl_analyttkode, avsluttet) %>%
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_typekode, konkl_kjennelsekode, konkl_analyttkode, avsluttet) %>%
   dplyr::distinct() %>%
-  dplyr::filter(konkl_type == 3 & !is.na(avsluttet)) %>%
+  dplyr::filter(konkl_typekode == 3 & !is.na(avsluttet)) %>%
   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, avsluttet)) %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("konkl_type", "kjennelse", "analytt"),
-                                  code_colname = c("konkl_type", "konkl_kjennelsekode", "konkl_analyttkode"),
-                                  new_column = c("type","konkl_kjennelse", "konkl_analytt")) 
+  NVIdb::add_PJS_code_description(PJS_variable_type = c("auto"),
+                                  code_colname = c("konkl_typekode", "konkl_kjennelsekode", "konkl_analyttkode"),
+                                  new_column = c("auto")) 
 
 # Remove heading if no data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)

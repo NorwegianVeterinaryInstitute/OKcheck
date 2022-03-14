@@ -3,29 +3,29 @@
 # Saker med en prøvekonklusjon med påvist som konklusjonskjennelse som ikke er benyttet som resultatkjennelse på noen av undersøkelsene
 
 heading <- paste("<br/> <br/>",
-                 "<h4> Tabell K-7. Pr\u00F8ver med pr\u00F8vekonklusjon p\u00E5vist eller tvilsom som konklusjonskjennelse",
+                 "<h4> Tabell K-7. Pr\u00F8ver med pr\u00F8vekonklusjon p\u00E5vist som konklusjonskjennelse",
                  "og der denne kjennelsen ikke er benyttet som resultatkjennelse for noen av unders\u00F8kelsene </h4>",
-                 "<h5> Det forventes at minst ett resultat har p\u00E5vist eller tvilsom som resultatkjennelse n\u00E5r",
-                 "pr\u00F8ven er konkludert henholdsvis p\u00E5vist eller tvilsom.",
+                 "<h5> Det forventes at minst ett resultat har p\u00E5vist som resultatkjennelse n\u00E5r",
+                 "pr\u00F8ven er konkludert henholdsvis p\u00E5vist.",
                  "Ber om at det sjekkes at pr\u00F8vekonklusjonen er korrekt eller om resultatet mangler eller er feil. </h5>")
 
 # Identify cases that need to be checked
 resultater <- unique(paste(PJSdata$saksnr, PJSdata$provenr, PJSdata$res_kjennelsekode, PJSdata$res_analyttkode, sep = "-"))
-ktr1 <- PJSdata %>%
+ktr <- PJSdata %>%
   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, provenr,
-                konkl_kjennelsekode, konkl_analyttkode) %>%
-  dplyr::filter(konkl_analyttkode != "missing" & konkl_kjennelsekode == "020209") %>%
+                avsluttet, konkl_kjennelsekode, konkl_analyttkode) %>%
+  dplyr::filter(!is.na(avsluttet) & konkl_analyttkode != "missing" & konkl_kjennelsekode == "020209") %>%
   dplyr::distinct() %>%
   dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) %>%
   dplyr::filter(!index %in% resultater) %>%
   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  %>%
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index, avsluttet))  %>%
   NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
-resultater <- c(resultater,
-                unique(paste(PJSdata$saksnr, PJSdata$provenr, PJSdata$res_kjennelsekode, substr(PJSdata$res_analyttkode, 1, length_analytt), sep = "-")))
+# resultater <- c(resultater,
+#                 unique(paste(PJSdata$saksnr, PJSdata$provenr, PJSdata$res_kjennelsekode, substr(PJSdata$res_analyttkode, 1, length_analytt), sep = "-")))
 # ktr2 <- PJSdata %>%
 #   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, provenr,
 #                 konkl_kjennelsekode, konkl_analyttkode) %>%
@@ -39,20 +39,20 @@ resultater <- c(resultater,
 #                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
 #                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
-ktr3 <- PJSdata %>%
-  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, provenr,
-                konkl_kjennelsekode, konkl_analyttkode) %>%
-  dplyr::filter(konkl_analyttkode != "missing" & konkl_kjennelsekode == "020403") %>%
-  dplyr::distinct() %>%
-  dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) %>%
-  dplyr::filter(!index %in% resultater) %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
-                                  code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
-                                  new_column = c("konkl_kjennelse", "konkl_analytt")) 
-
-ktr <- rbind(ktr1, ktr3)
+# ktr3 <- PJSdata %>%
+#   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, provenr,
+#                 konkl_kjennelsekode, konkl_analyttkode) %>%
+#   dplyr::filter(konkl_analyttkode != "missing" & konkl_kjennelsekode == "020403") %>%
+#   dplyr::distinct() %>%
+#   dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) %>%
+#   dplyr::filter(!index %in% resultater) %>%
+#   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
+#   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  %>%
+#   NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
+#                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
+#                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
+# 
+# ktr <- rbind(ktr1)
 
 # Remove heading if no data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)

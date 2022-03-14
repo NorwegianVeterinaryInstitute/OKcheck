@@ -21,6 +21,8 @@ use_NVIverse(pkg = c("NVIdb", "OKcheck"))
 # For use in filenames
 today <- format(Sys.Date(), "%Y%m%d")
 
+accept <- "accept_always"
+
 # Import support data
 # Translation table for PJS-codes
 PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
@@ -33,6 +35,8 @@ accepted_codes <- openxlsx::read.xlsx(xlsxFile = paste0(NVIdb::set_dir_NVI("OKpr
                                       detectDates = TRUE)
 
 accepted_codes <- subset(accepted_codes, accepted_codes$program == purpose)
+
+accepted_codes <- accepted_codes[which(accepted_codes[, accept] == 1 | is.na(accepted_codes[, accept])), ]
 
 knitr::opts_chunk$set(echo=TRUE)
 ```

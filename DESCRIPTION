@@ -1,6 +1,6 @@
 Package: OKcheck
 Title: Tools to facilitate checking of data from National Surveillance Programmes
-Version: 0.2.0
+Version: 0.2.1
 Date: 2022-03-14
 Authors@R:
   c(person(given = "Petter",

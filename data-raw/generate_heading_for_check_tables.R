@@ -9,7 +9,7 @@ write.csv2(heading_for_check_tables,
            fileEncoding = "UTF-8")
 
 # Save in package
-usethis::use_data(heading_for_check_tables, overwrite = TRUE, internal = TRUE)
+usethis::use_data(heading_for_check_tables, overwrite = TRUE, internal = FALSE)
 
 
 rm(heading_for_check_tables)

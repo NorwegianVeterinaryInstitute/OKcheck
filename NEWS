@@ -6,7 +6,9 @@ Bug fixes:
 
 Other changes:
 
-- README updated
+- Updated READMEand corrected installation guidelines
+
+- Updated CONTRIBUTING and the vignette: Contribute_to_OKcheck
 
 
 OKcheck 0.2.1 - (2022-03-14)

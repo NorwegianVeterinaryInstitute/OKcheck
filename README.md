@@ -15,10 +15,12 @@ surveillance programmes.
 
 `OKcheck` is part of `NVIverse`, a collection of R-packages with tools
 to facilitate data management and data reporting at the Norwegian
-Veterinary Institute (NVI). The NVIverse consists of the following
-packages: NVIconfig, NVIdb, NVIpretty, NVIbatch, OKplan, OKcheck,
-NVIcheckmate, NVIpackager, NVIrpackages. See the vignette “Contribute to
-OKcheck” for more information.
+Veterinary Institute (NVI). The `NVIverse` consists of the following
+packages: `NVIconfig`, `NVIdb`, `NVIspatial`, `NVIpretty`, `NVIbatch`,
+`OKplan`, `OKcheck`, `NVIcheckmate`, `NVIpackager`, `NVIrpackages`. See
+[Contribute to
+OKcheck](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/CONTRIBUTING.md)
+for more information.
 
 ## Installation
 
@@ -28,7 +30,7 @@ OKcheck” for more information.
 
 -   R version > 4.0.0
 -   R package `remotes`
--   Rtools 4.0
+-   Rtools 4.0 or Rtools 4.2 depending on R version
 
 First install and attach the `remotes` package.
 
@@ -40,7 +42,7 @@ To install (or update) the `OKcheck` package, run the following code:
     remotes::install_github("NorwegianVeterinaryInstitute/OKcheck",
         upgrade = FALSE,
         build = TRUE,
-        build_manual = TRUE)
+        build_vignettes = TRUE)
 
 ## Usage
 
@@ -71,7 +73,9 @@ for details.
 Contributions to develop `OKcheck` is highly appreciated. There are
 several ways you can contribute to this project: ask a question, propose
 an idea, report a bug, improve the documentation, or contribute code.
-The vignette “Contribute to OKcheck” gives more information.
+See [Contribute to
+OKcheck](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/CONTRIBUTING.md)
+for more information.
 
 ## <!-- Code of conduct -->
 

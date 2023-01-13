@@ -13,9 +13,9 @@ if (dim(heading_info)[1] == 0) {
 }
 
 # # Should only completed cases be included (1/0)
-# completed_cases <- 0
+# closed_journals <- 0
 # if (dim(heading_info)[1] > 0) {
-#   completed_cases <- heading_info$complete_case
+#   closed_journals <- heading_info$closed_journal
 # }
 
 heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
@@ -48,7 +48,7 @@ if (length(code_2_accept) > 0) {
   ktr <- unique(ktr)
   
   # Exclude saker that is not avsluttet
-  if (dim(heading_info)[1] >0 && heading_info$complete_case == 1) {
+  if (dim(heading_info)[1] >0 && heading_info$closed_journal == 1) {
     ktr <- subset(ktr, !is.na(ktr$avsluttet))
   }
   ktr$avsluttet <- NULL

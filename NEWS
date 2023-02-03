@@ -1,5 +1,11 @@
 OKcheck 0.2.1.9000 - (2022-##-##)
 
+
+New features:
+
+- Created `check_ok_data` to facilitate output of check result in a browser or send the output file by email. `check_ok_data` is a wrapper for `NVIbatch::output_rendered`.
+
+
 Bug fixes:
 
 - 

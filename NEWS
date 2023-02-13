@@ -8,13 +8,14 @@ New features:
 
 Bug fixes:
 
-- 
+- Fixed difficulties in installing due to dependencies when building the vignettes: Contribute_to_OKcheck.
+
 
 Other changes:
 
-- Updated README and corrected installation guidelines
+- Updated README and corrected installation guidelines.
 
-- Updated CONTRIBUTING and the vignette: Contribute_to_OKcheck
+- Updated CONTRIBUTING and the vignette: Contribute_to_OKcheck.
 
 
 OKcheck 0.2.1 - (2022-03-14)

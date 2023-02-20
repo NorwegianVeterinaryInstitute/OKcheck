@@ -28,7 +28,7 @@ for more information.
 [GitHub](https://github.com/NorwegianVeterinaryInstitute). To install
 `OKcheck` you will need:
 
--   R version > 4.0.0
+-   R version &gt; 4.0.0
 -   R package `remotes`
 -   Rtools 4.0 or Rtools 4.2 depending on R version
 
@@ -53,6 +53,8 @@ The `OKcheck` package needs to be attached.
 `OKcheck`provide tools to facilitate checking of data from national
 surveillance programmes.
 
+#### Help
+
 The full list of all available functions and datasets can be accessed by
 typing
 
@@ -63,7 +65,7 @@ other changes.
 
 ## Copyright and license
 
-Copyright (c) 2022 Norwegian Veterinary Institute.  
+Copyright (c) 2022 - 2023 Norwegian Veterinary Institute.  
 Licensed under the BSD\_3\_clause License. See
 [License](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/LICENSE)
 for details.

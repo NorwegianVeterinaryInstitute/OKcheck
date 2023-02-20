@@ -1,7 +1,7 @@
 Package: OKcheck
 Title: Tools to facilitate checking of data from National Surveillance Programmes
-Version: 0.2.1
-Date: 2022-03-14
+Version: 0.3.0
+Date: 2023-02-20
 Authors@R:
   c(person(given = "Petter",
            family = "Hopp",
@@ -17,9 +17,9 @@ License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Imports: 
-    checkmate (>= 2.0.0),
+    checkmate,
     dplyr,
     kableExtra,
     knitr,
@@ -28,11 +28,11 @@ Imports:
     rmarkdown,
     shiny,
     tidyr,
-    NVIcheckmate (>= 0.3.3),
+    NVIbatch (>= 0.4.0),
     NVIdb (>= 0.7.0),
     NVIrpackages
 Remotes: 
-    github::NorwegianVeterinaryInstitute/NVIcheckmate,
+    github::NorwegianVeterinaryInstitute/NVIbatch,
     github::NorwegianVeterinaryInstitute/NVIdb,
     github::NorwegianVeterinaryInstitute/NVIpackager,
     github::NorwegianVeterinaryInstitute/NVIrpackages

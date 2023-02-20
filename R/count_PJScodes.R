@@ -52,8 +52,9 @@ count_PJScodes <- function(PJSdata,
     dplyr::count(PJSdata[, variable]) %>%
     dplyr::rename(used_code = 1, n_obs = 2) %>%
     dplyr::mutate(used_code = as.character(used_code)) %>%
-    dplyr::mutate(var = variable) %>%
-    dplyr::select(var, used_code, n_obs)
+    dplyr::mutate(var = variable) # %>%
+    # dplyr::select(var, used_code, n_obs)
+  used_codes <- used_codes[, c("var", "used_code", "n_obs")]
 
   if (!is.null(accepted)) {
     used_codes$accepted <- 0

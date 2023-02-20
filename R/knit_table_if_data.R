@@ -3,14 +3,14 @@
 #' @details Knits a table within an rmarkdown document if there are data in the data
 #'     source.
 #'
-#'     The column names are standardized using \code{standardize_columns}. The
+#' The column names are standardized using \code{standardize_columns}. The
 #'     output also includes a table heading.
 #'
-#'     This is primary used in rmarkdown reports for checking PJS-data for
+#' This is primary used in rmarkdown reports for checking PJS-data for
 #'     potential mistakes. If data with potential mistakes are identified, these
 #'     are reported in a table. If no mistakes are found, no report is created.
 #'
-#'     The heading should explain why the data needs to be checked so that the
+#' The heading should explain why the data needs to be checked so that the
 #'     laboratory should know what to change in the source data, i.e. PJS.
 #'
 #' @param data data.frame with or without data.

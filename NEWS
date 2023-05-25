@@ -13,7 +13,9 @@ Bug fixes:
 
 Other changes:
 
-- Improved `count_PJScodes` with better argument checking.
+- Standardised help and included links. 
+
+- Improved argument checking for `count_PJScodes` and `find_accepted_code`.
 
 
 BREAKING CHANGES:

@@ -1,10 +1,12 @@
 #' @title Knit table if data to report
-#' @description Knit a table using \code{kable} if there are data in the data frame.
-#' @details Knits a table within an rmarkdown document if there are data in the data
-#'     source.
+#' @description Knits a table for presenting within an rmarkdown document.
+#' @details Knits a table if the table is non-empty. Else, no datas is shown.
+#'     \ifelse{html}{\code{\link[knitr:kable]{knitr::kable}}}{\code{knitr::kable}}
+#'     is used to knit the table.
 #'
-#' The column names are standardized using \code{standardize_columns}. The
-#'     output also includes a table heading.
+#' The column names are standardized using
+#'     \ifelse{html}{\code{\link[NVIdb:standardize_columns]{NVIdb::standardize_columns}}}{\code{NVIdb::standardize_columns}}.
+#'     The output also includes a table heading.
 #'
 #' This is primary used in rmarkdown reports for checking PJS-data for
 #'     potential mistakes. If data with potential mistakes are identified, these
@@ -13,13 +15,17 @@
 #' The heading should explain why the data needs to be checked so that the
 #'     laboratory should know what to change in the source data, i.e. PJS.
 #'
-#' @param data data.frame with or without data.
-#' @param heading Table title and caption.
-#'
-#' @importFrom magrittr %>%
+#' @param data [\code{data.frame}]\cr
+#'     Data to be formatted. Can be empty.
+#' @param heading [\code{character(1)}]\cr
+#'     Table title and caption.
 #'
 #' @return A knitted table formatted by kable for output from rmarkdown. If no
 #'      data in the data source, an empty document.
+#'
+#' @author Petter Hopp Petter.Hopp@@vetinst.no
+#' @noMd
+#' @importFrom magrittr %>%
 #' @export
 
 

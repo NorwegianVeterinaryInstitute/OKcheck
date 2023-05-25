@@ -7,28 +7,35 @@
 knit_table_if_data(data, heading)
 }
 \arguments{
-\item{data}{data.frame with or without data.}
+\item{data}{[\code{data.frame}]\cr
+Data to be formatted. Can be empty.}
 
-\item{heading}{Table title and caption.}
+\item{heading}{[\code{character(1)}]\cr
+Table title and caption.}
 }
 \value{
 A knitted table formatted by kable for output from rmarkdown. If no
-data in the data source, an empty document.
+     data in the data source, an empty document.
 }
 \description{
-Knit a table using \code{kable} if there are data in the data frame.
+Knits a table for presenting within an rmarkdown document.
 }
 \details{
-Knits a table within an rmarkdown document if there are data in the data
-source.
+Knits a table if the table is non-empty. Else, no datas is shown.
+    \ifelse{html}{\code{\link[knitr:kable]{knitr::kable}}}{\code{knitr::kable}}
+    is used to knit the table.
 
-The column names are standardized using \code{standardize_columns}. The
-output also includes a table heading.
+The column names are standardized using
+    \ifelse{html}{\code{\link[NVIdb:standardize_columns]{NVIdb::standardize_columns}}}{\code{NVIdb::standardize_columns}}.
+    The output also includes a table heading.
 
 This is primary used in rmarkdown reports for checking PJS-data for
-potential mistakes. If data with potential mistakes are identified, these
-are reported in a table. If no mistakes are found, no report is created.
+    potential mistakes. If data with potential mistakes are identified, these
+    are reported in a table. If no mistakes are found, no report is created.
 
 The heading should explain why the data needs to be checked so that the
-laboratory should know what to change in the source data, i.e. PJS.
+    laboratory should know what to change in the source data, i.e. PJS.
+}
+\author{
+Petter Hopp Petter.Hopp@vetinst.no
 }

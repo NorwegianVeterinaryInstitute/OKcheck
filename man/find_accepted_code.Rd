@@ -7,11 +7,14 @@
 find_accepted_code(data, purpose, code_variable)
 }
 \arguments{
-\item{data}{Data frame with accepted PJS-codes.}
+\item{data}{[\code{data.frame}]\cr
+Data with accepted PJS-codes.}
 
-\item{purpose}{The purpose for which accepted PJS-codes should be found.}
+\item{purpose}{[\code{character(1)}]\cr
+The purpose for which accepted PJS-codes should be found.}
 
-\item{code_variable}{Vector with the combinations of PJS-code types that should be checked.}
+\item{code_variable}{[\code{character}]\cr
+Vector with the combinations of PJS-code types that should be checked.}
 }
 \value{
 A vector with accepted code combinations.
@@ -21,8 +24,8 @@ Finds accepted PJS-codes for a certain purpose / program.
 }
 \details{
 The accepted PJS-codes for a certain purpose is stored in an a table. The
-function reads the table and finds the PJS-codes that are accepted for the
-purpose. Thereafter the list of accepted codes can be used in control routines.
+    function reads the table and finds the PJS-codes that are accepted for the
+    purpose. Thereafter the list of accepted codes can be used in control routines.
 }
 \author{
 Petter Hopp Petter.Hopp@vetinst.no

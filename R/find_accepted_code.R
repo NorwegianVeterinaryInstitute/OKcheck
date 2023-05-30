@@ -28,7 +28,7 @@ find_accepted_code <- function(data, purpose, code_variable) {
   checkmate::assert_character(code_variable, max.len = 4, add = checks)
   # Report check-results
   checkmate::reportAssertions(checks)
-  
+
   data = subset(data, data$program == purpose)
 
   data[which(is.na(data$var2)), c("var2", "verdi2")] <- c("", "")

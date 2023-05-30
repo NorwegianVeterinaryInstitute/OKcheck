@@ -3,7 +3,8 @@ library(NVIdb)
 library(testthat)
 library(checkmate)
 
-test_that("check counting in count_PJScodes", {
+
+test_that("check counting in count_PJScodes for metodekode", {
   # Generate test data
   PJSdata <- as.data.frame(c("010001", "010002", "060154", "010001", "010002", "070013"))
   colnames(PJSdata) <- "metodekode"
@@ -16,6 +17,8 @@ test_that("check counting in count_PJScodes", {
   checkmate::expect_data_frame(ktr, nrows = 4, ncols = 3)
 
   checkmate::expect_subset(colnames(ktr), c("var", "used_code", "n_obs"))
+
+  expect_identical(ktr$n_obs, c(2L, 2L, 1L, 1L))
 
 
   # skip if no connection to 'FAG' have been established
@@ -31,8 +34,37 @@ test_that("check counting in count_PJScodes", {
   checkmate::expect_data_frame(ktr, nrows = 4, ncols = 5)
 
   checkmate::expect_subset(colnames(ktr), c("var", "used_code", "metode", "n_obs", "accepted"))
+
+  expect_identical(ktr$accepted, c(1L, 1L, 0L, 0L))
 })
 
+
+test_that("check counting in count_PJScodes for hensiktkode", {
+
+  # skip if no connection to 'FAG' have been established
+  skip_if_not(dir.exists(set_dir_NVI("FAG")))
+
+  PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+
+  # Generate test data
+  PJSdata <- as.data.frame(c("0100101015", "0100101015", "01001", "0200105", "0200126", "0400109"))
+  colnames(PJSdata) <- "hensiktkode"
+
+  ktr <- count_PJScodes(PJSdata = PJSdata,
+                        variable = "hensiktkode",
+                        accepted = c("01001%", "0100201005", "04%"),
+                        translation_table = NULL)
+
+  checkmate::expect_data_frame(ktr, nrows = 5, ncols = 4)
+
+  checkmate::expect_subset(colnames(ktr), c("var", "used_code", "n_obs", "accepted"))
+
+  expect_identical(ktr$n_obs, c(1L, 2L, 1L, 1L, 1L))
+
+  expect_identical(ktr$accepted, c(1L, 1L, 0L, 0L, 1L))
+  })
+
+# cHECKING ERRORS IN ARGUMENT CHECKING ----
 test_that("errors for count_PJScodes", {
 
   linewidth <- options("width")

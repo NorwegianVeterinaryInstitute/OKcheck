@@ -75,11 +75,21 @@ count_PJScodes <- function(PJSdata,
   used_codes$var <- variable # %>%
   used_codes <- used_codes[, c("var", variable, "n_obs")]
 
-  if (!is.null(accepted)) {
-    used_codes$accepted <- 0
-    used_codes[which(used_codes[, variable] %in% accepted), "accepted"] <- 1
+  if (!is.null(accepted)) { 
+    # used_codes$accepted <- 0
+    # used_codes[which(used_codes[, variable] %in% accepted), "accepted"] <- 1
+    
+    # transform value_2_check to regular expressions
+    accepted <- paste0("^", accepted)
+    accepted <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = accepted, fixed = TRUE)
+    
+    used_codes <- used_codes %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(accepted = max(unlist(lapply(accepted, grep, x = used_codes)), 0)) 
+    
+    used_codes$accepted <- as.logical(used_codes$accepted)
   }
-
+  
   if (!is.null(translation_table) & variable %in% NVIdb::PJS_code_description_colname$code_colname) {
     # if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
     used_codes <- NVIdb::add_PJS_code_description(data = used_codes,

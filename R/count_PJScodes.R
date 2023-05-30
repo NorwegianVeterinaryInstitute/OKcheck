@@ -12,6 +12,8 @@
 #'     \ifelse{html}{\code{\link[NVIdb:add_PJS_code_description]{NVIdb::read_PJS_code_2_text}}}{\code{NVIdb::read_PJS_code_2_text}}
 #'    for this, see example.
 #'
+#' The argument \code{accepted} accepts code values ending with "%" to include sub_levels.
+#'
 #' @param PJSdata [\code{data.frame}]\cr
 #'     Data from PJS.
 #' @param variable [\code{character(1)}]\cr
@@ -75,21 +77,24 @@ count_PJScodes <- function(PJSdata,
   used_codes$var <- variable # %>%
   used_codes <- used_codes[, c("var", variable, "n_obs")]
 
-  if (!is.null(accepted)) { 
+  if (!is.null(accepted)) {
     # used_codes$accepted <- 0
     # used_codes[which(used_codes[, variable] %in% accepted), "accepted"] <- 1
-    
+
     # transform value_2_check to regular expressions
     accepted <- paste0("^", accepted)
-    accepted <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = accepted, fixed = TRUE)
-    
+    acceptedx <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = accepted, fixed = TRUE)
+
+    colnames(used_codes)[colnames(used_codes) == variable] <- "used_code"
     used_codes <- used_codes %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(accepted = max(unlist(lapply(accepted, grep, x = used_codes)), 0)) 
-    
-    used_codes$accepted <- as.logical(used_codes$accepted)
+      dplyr::mutate(accepted = max(unlist(lapply(acceptedx, grep, x = used_code)), 0))
+
+    used_codes$accepted <- +(as.logical(used_codes$accepted))
+    colnames(used_codes)[colnames(used_codes) == "used_code"] <- variable
+    # colnames(used_codes)[2] <- variable
   }
-  
+
   if (!is.null(translation_table) & variable %in% NVIdb::PJS_code_description_colname$code_colname) {
     # if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
     used_codes <- NVIdb::add_PJS_code_description(data = used_codes,

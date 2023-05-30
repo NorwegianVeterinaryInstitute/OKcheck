@@ -42,6 +42,8 @@ The \code{translation_table} for PJS-codes needs to be imported to add the
    description text. You may use
     \ifelse{html}{\code{\link[NVIdb:add_PJS_code_description]{NVIdb::read_PJS_code_2_text}}}{\code{NVIdb::read_PJS_code_2_text}}
    for this, see example.
+
+The argument \code{accepted} accepts code values ending with "%" to include sub_levels.
 }
 \examples{
 \dontrun{

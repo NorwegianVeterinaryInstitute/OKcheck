@@ -5,16 +5,30 @@
 #'     function reads the table and finds the PJS-codes that are accepted for the
 #'     purpose. Thereafter the list of accepted codes can be used in control routines.
 #'
-#' @param data Data frame with accepted PJS-codes.
-#' @param purpose The purpose for which accepted PJS-codes should be found.
-#' @param code_variable Vector with the combinations of PJS-code types that should be checked.
+#' @param data [\code{data.frame}]\cr
+#'     Data with accepted PJS-codes.
+#' @param purpose [\code{character(1)}]\cr
+#'     The purpose for which accepted PJS-codes should be found.
+#' @param code_variable [\code{character}]\cr
+#'     Vector with the combinations of PJS-code types that should be checked.
 #'
 #' @return A vector with accepted code combinations.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
+#' @noMd
 #' @export
 
 find_accepted_code <- function(data, purpose, code_variable) {
+  # ARGUMENT CHECKING ----
+  # Object to store check-results
+  checks <- checkmate::makeAssertCollection()
+  # Perform checks
+  checkmate::assert_data_frame(data, add = checks)
+  checkmate::assert_string(purpose, min.chars = 1, all, add = checks)
+  checkmate::assert_character(code_variable, max.len = 4, add = checks)
+  # Report check-results
+  checkmate::reportAssertions(checks)
+
   data = subset(data, data$program == purpose)
 
   data[which(is.na(data$var2)), c("var2", "verdi2")] <- c("", "")

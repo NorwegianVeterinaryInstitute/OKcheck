@@ -2,17 +2,26 @@
 #' @description Count used PJS-codes and marks whether they are accepted or not.
 #'
 #' @details The purpose is to give an overview of the PJS-codes used. PJS-codes
-#'    that are included in the control routines as accepted codes are marked. The
-#'    description text is added to all used codes to facilitate checking if the
-#'    codes should be accepted or not.
+#'    that are included in the control routines as accepted codes are marked. To
+#'    facilitate checking if additional codes should be added to the list of
+#'    selected or deleted codes, the description text is added to the used codes.
+#'    This is under the condition that the PJSdata have standardised column names.
 #'
-#'    The \code{translation_table} for PJS-codes needs to be imported. The function
-#'    \code{NVIdb::read_PJS_code_2_text} should be used, see example.
+#' The \code{translation_table} for PJS-codes needs to be imported to add the
+#'    description text. You may use
+#'     \ifelse{html}{\code{\link[NVIdb:add_PJS_code_description]{NVIdb::read_PJS_code_2_text}}}{\code{NVIdb::read_PJS_code_2_text}}
+#'    for this, see example.
 #'
-#' @param PJSdata Data frame with data from PJS.
-#' @param variable The variable in the data frame that should be checked.
-#' @param accepted Vector with accepted code values. Defaults to \code{NULL}.
-#' @param translation_table The translation table for PJS-codes, see details.
+#' The argument \code{accepted} accepts code values ending with "%" to include sub_levels.
+#'
+#' @param PJSdata [\code{data.frame}]\cr
+#'     Data from PJS.
+#' @param variable [\code{character(1)}]\cr
+#'     The variable in the data that should be checked.
+#' @param accepted [\code{character}]\cr
+#'     Vector with accepted code values. Defaults to \code{NULL}.
+#' @param translation_table [\code{data.frame}]\cr
+#'     The translation table for PJS-codes, see details.
 #'
 #' @importFrom magrittr %>%
 #'
@@ -20,6 +29,7 @@
 #'     rows where the codes have been used.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
+#' @noMd
 #' @export
 #' @examples
 #' \dontrun{
@@ -37,36 +47,63 @@ count_PJScodes <- function(PJSdata,
                            accepted = NULL,
                            translation_table = PJS_codes_2_text) {
 
-  # Translation table between standard PJS column name and PJS-type as used in PJS_codes_2_text
-  PJS_codetype <- c("ansvarlig_seksjon" = "seksjon",
-                    "artkode" = "art", "driftsformkode" = "driftsform",
-                    "provetypekode" = "provetype", "provematerialekode" = "provemateriale",
-                    "metodekode" = "metode",
-                    "konkl_kjennelsekode" = "kjennelse", "konkl_analyttkode" = "analytt",
-                    "res_kjennelsekode" = "kjennelse", "res_analyttkode" = "analytt",
-                    "konkl_type" = "konkl_type", "eier_lokalitetstype" = "registertype")
+  # # Translation table between standard PJS column name and PJS-type as used in PJS_codes_2_text
+  # PJS_codetype <- c("ansvarlig_seksjon" = "seksjon",
+  #                   "artkode" = "art", "driftsformkode" = "driftsform",
+  #                   "provetypekode" = "provetype", "provematerialekode" = "provemateriale",
+  #                   "metodekode" = "metode",
+  #                   "konkl_kjennelsekode" = "kjennelse", "konkl_analyttkode" = "analytt",
+  #                   "res_kjennelsekode" = "kjennelse", "res_analyttkode" = "analytt",
+  #                   "konkl_type" = "konkl_type", "eier_lokalitetstype" = "registertype")
+  #
+  # # PJStype <- PJS_codetype[variable]
 
-  # PJStype <- PJS_codetype[variable]
+  # ARGUMENT CHECKING ----
+  # Object to store check-results
+  checks <- checkmate::makeAssertCollection()
+  # Perform checks
+  checkmate::assert_data_frame(PJSdata, add = checks)
+  checkmate::assert_choice(variable, choices = colnames(PJSdata), add = checks)
+  checkmate::assert_character(accepted, null.ok = TRUE, add = checks)
+  checkmate::assert_data_frame(translation_table, null.ok = TRUE, add = checks)
+  # Report check-results
+  checkmate::reportAssertions(checks)
 
+  # COUNT USED CODES ----
+  # Counts number of rows
   used_codes <- as.data.frame(PJSdata[, variable]) %>%
-    dplyr::count(PJSdata[, variable]) %>%
-    dplyr::rename(used_code = 1, n_obs = 2) %>%
-    dplyr::mutate(used_code = as.character(used_code)) %>%
-    dplyr::mutate(var = variable) # %>%
-    # dplyr::select(var, used_code, n_obs)
-  used_codes <- used_codes[, c("var", "used_code", "n_obs")]
+    dplyr::count(PJSdata[, variable])
+  colnames(used_codes) <- c(variable, "n_obs")
+  used_codes[, variable] = as.character(used_codes[, variable])
 
+  # Check which codes that are included in the selection parameters.
+  # Marks the codes with accepted = 1 if the code are included in teh selection parameters
   if (!is.null(accepted)) {
-    used_codes$accepted <- 0
-    used_codes[which(used_codes$used_code %in% accepted), "accepted"] <- 1
+    # transform value_2_check to regular expressions
+    accepted <- paste0("^", accepted)
+    acceptedx <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = accepted, fixed = TRUE)
+
+    colnames(used_codes)[colnames(used_codes) == variable] <- "used_code"
+    used_codes <- used_codes %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(accepted = max(unlist(lapply(acceptedx, grep, x = used_code)), 0))
+
+    used_codes$accepted <- +(as.logical(used_codes$accepted))
+    colnames(used_codes)[colnames(used_codes) == "used_code"] <- variable
   }
 
-  if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
+  # Includes description text for the codes, if the translation table is available
+  if (!is.null(translation_table) & variable %in% NVIdb::PJS_code_description_colname$code_colname) {
+    # if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
     used_codes <- NVIdb::add_PJS_code_description(data = used_codes,
                                                   translation_table = translation_table,
-                                                  PJS_variable_type = PJS_codetype[variable],
-                                                  code_colname = "used_code",
-                                                  new_column = PJS_codetype[variable])
+                                                  PJS_variable_type = "auto",
+                                                  code_colname = variable,
+                                                  new_column = "auto")
   }
+
   return(as.data.frame(used_codes))
 }
+
+# To avoid checking of the variable kommune_fylke as default input argument in the function
+utils::globalVariables(names = c("PJS_codes_2_text", "used_code"))

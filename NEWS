@@ -1,9 +1,26 @@
+OKcheck 0.3.1 - (2023-05-31)
+----------------------------------------
+
+New features:
+
+- Improved `count_PJScodes` so that the argument `accepted` handles codes with ending "%" to include sub-levels of the code.
+
+
+Other changes:
+
+- Standardised help and included links. 
+
+- Improved argument checking for `find_accepted_code`.
+
+- Include rmarkdown template "check_ok_selection_parameters" for better reporting from `count_PJScodes` for hensiktkoder, metodekoder and konklusjonsanalyttkoder when checking the selection parameters for selecting data for diseases from PJS.
+
+
 OKcheck 0.3.0 - (2023-02-20)
 
 
 New features:
 
-- Created `check_ok_data` to facilitate output of check result in a browser or send the output file by email. `check_ok_data` is a wrapper for `NVIbatch::output_rendered`.
+- Created `check_ok_PJSdata` to facilitate output of check result in a browser or send the output file by email. `check_ok_data` is a wrapper for `NVIbatch::output_rendered`.
 
 
 Bug fixes:

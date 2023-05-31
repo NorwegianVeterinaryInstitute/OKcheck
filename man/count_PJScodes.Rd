@@ -12,29 +12,38 @@ count_PJScodes(
 )
 }
 \arguments{
-\item{PJSdata}{Data frame with data from PJS.}
+\item{PJSdata}{[\code{data.frame}]\cr
+Data from PJS.}
 
-\item{variable}{The variable in the data frame that should be checked.}
+\item{variable}{[\code{character(1)}]\cr
+The variable in the data that should be checked.}
 
-\item{accepted}{Vector with accepted code values. Defaults to \code{NULL}.}
+\item{accepted}{[\code{character}]\cr
+Vector with accepted code values. Defaults to \code{NULL}.}
 
-\item{translation_table}{The translation table for PJS-codes, see details.}
+\item{translation_table}{[\code{data.frame}]\cr
+The translation table for PJS-codes, see details.}
 }
 \value{
 A data frame with the used codes, their description and the number of
-rows where the codes have been used.
+    rows where the codes have been used.
 }
 \description{
 Count used PJS-codes and marks whether they are accepted or not.
 }
 \details{
 The purpose is to give an overview of the PJS-codes used. PJS-codes
-that are included in the control routines as accepted codes are marked. The
-description text is added to all used codes to facilitate checking if the
-codes should be accepted or not.
+   that are included in the control routines as accepted codes are marked. To
+   facilitate checking if additional codes should be added to the list of
+   selected or deleted codes, the description text is added to the used codes.
+   This is under the condition that the PJSdata have standardised column names.
 
-The \code{translation_table} for PJS-codes needs to be imported. The function
-\code{NVIdb::read_PJS_code_2_text} should be used, see example.
+The \code{translation_table} for PJS-codes needs to be imported to add the
+   description text. You may use
+    \ifelse{html}{\code{\link[NVIdb:add_PJS_code_description]{NVIdb::read_PJS_code_2_text}}}{\code{NVIdb::read_PJS_code_2_text}}
+   for this, see example.
+
+The argument \code{accepted} accepts code values ending with "%" to include sub_levels.
 }
 \examples{
 \dontrun{

@@ -14,9 +14,9 @@ test_that("check counting in count_PJScodes for metodekode", {
                         accepted = NULL,
                         translation_table = NULL)
 
-  checkmate::expect_data_frame(ktr, nrows = 4, ncols = 3)
+  checkmate::expect_data_frame(ktr, nrows = 4, ncols = 2)
 
-  checkmate::expect_subset(colnames(ktr), c("var", "used_code", "n_obs"))
+  checkmate::expect_subset(colnames(ktr), c("metodekode", "n_obs"))
 
   expect_identical(ktr$n_obs, c(2L, 2L, 1L, 1L))
 
@@ -31,9 +31,9 @@ test_that("check counting in count_PJScodes for metodekode", {
                         accepted = c("010001", "010002"),
                         translation_table = PJS_codes_2_text)
 
-  checkmate::expect_data_frame(ktr, nrows = 4, ncols = 5)
+  checkmate::expect_data_frame(ktr, nrows = 4, ncols = 4)
 
-  checkmate::expect_subset(colnames(ktr), c("var", "used_code", "metode", "n_obs", "accepted"))
+  checkmate::expect_subset(colnames(ktr), c("metodekode", "metode", "n_obs", "accepted"))
 
   expect_identical(ktr$accepted, c(1L, 1L, 0L, 0L))
 })
@@ -55,9 +55,9 @@ test_that("check counting in count_PJScodes for hensiktkode", {
                         accepted = c("01001%", "0100201005", "04%"),
                         translation_table = NULL)
 
-  checkmate::expect_data_frame(ktr, nrows = 5, ncols = 4)
+  checkmate::expect_data_frame(ktr, nrows = 5, ncols = 3)
 
-  checkmate::expect_subset(colnames(ktr), c("var", "used_code", "n_obs", "accepted"))
+  checkmate::expect_subset(colnames(ktr), c("hensiktkode", "n_obs", "accepted"))
 
   expect_identical(ktr$n_obs, c(1L, 2L, 1L, 1L, 1L))
 

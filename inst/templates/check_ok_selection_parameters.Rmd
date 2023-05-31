@@ -6,32 +6,33 @@ params:
     data: 
     purpose: "ok_sykdom_art"
     aar: "`r as.numeric(format(Sys.Date(), '%Y')) - 1`"
-    accept: "accept_always"
+    selection_parameters: 
 title: "`r paste('Kontroll av seleksjonsparameterne for:', params$purpose, params$aar)`"
 ---
 ```{r set-options, echo=FALSE, cache=FALSE, clean=FALSE}
+linewidth <- options("width")
 options(width = 1000)
 ```
 
 ```{r setup, include=FALSE}
-
+# SET UP R ENVIRONMENT
 # Attach packages
-library(NVIbatch)
-use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra", "htmltools"))
-use_NVIverse(pkg = c("NVIdb", "OKcheck"))
-
-# Global variables
-# For use in filenames
-today <- format(Sys.Date(), "%Y%m%d")
+library(OKcheck)
 
 # Import support data
 # Translation table for PJS-codes
 PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
 
+# Import variables input as parameter to the Rmd-file
 data <- params$data
 purpose <- params$purpose
 aar <- params$aar
-accept <- params$accept
+# selection_parameters should be a list built by NVIdb::set_disease_parameters or built similarly manually
+selection_parameters <- params$selection_parameters
+hensikt2select <- selection_parameters$hensikt2select
+metode2select <- selection_parameters$metode2select
+analytt2select <- selection_parameters$analytt2select
+hensikt2delete <- selection_parameters$hensikt2delete
 
 knitr::opts_chunk$set(echo=TRUE)
 ```
@@ -41,53 +42,72 @@ knitr::opts_chunk$set(echo=TRUE)
 
 ```
 
-<!-- Check code combinations -->
+<!-- Count hensiktkoder -->
 ```{r echo = FALSE}
+# Heading and sub-heading for the table. Includes instructions for how to interpret the table
 heading <- paste("<br/> <br/>",
-                 "<h4> Tabell K-4. Pr\u00F8ver med mer enn \u00E9n konklusjonskjennelse for identiske konklusjonsanalytter og",
-                 "der konklusjonskjennelsene er motstridende </h4>",
-                 "<h5> En pr\u00F8ve kan ikke konkluderes med motstridende pr\u00F8vekonklusjoner for samme pr\u00F8veanalytt.",
-                 "Ber om at de pr\u00F8vekonklusjonene som er feil, fjernes fra saken. </h5>")
+                 "<h4> Tabell 1. Hensiktkoder registrert i data for", purpose, paste0(aar, ". </h4>"), 
+                 "<h5> 'N obs' angir antall ganger koden er benyttet.",
+                 "Hvis kolonnen 'Accepted' er inkludert,",
+                 "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
+                 "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
+                 "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
 
-# Identify cases that need to be checked
-ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata, 
-                               variable = "metodekode", 
-                               accepted = metode2select,
-                               translation_table = PJS_codes_2_text)
-
-# Remove heading if no data to report
-OKcheck::knit_table_if_data(data = ktr, heading = heading)
-
-
-heading <- paste("<br/> <br/>",
-                 "<h4> Tabell K-4. Pr\u00F8ver med mer enn \u00E9n konklusjonskjennelse for identiske konklusjonsanalytter og",
-                 "der konklusjonskjennelsene er motstridende </h4>",
-                 "<h5> En pr\u00F8ve kan ikke konkluderes med motstridende pr\u00F8vekonklusjoner for samme pr\u00F8veanalytt.",
-                 "Ber om at de pr\u00F8vekonklusjonene som er feil, fjernes fra saken. </h5>")
-
-# Identify cases that need to be checked
+# Counts the number of unique rows in the dataset with hensiktkode
 ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata, 
                                variable = "hensiktkode", 
                                accepted = c(hensikt2select, hensikt2delete),
                                translation_table = PJS_codes_2_text)
 
-# Remove heading if no data to report
+# Outputs the table if there are data in the table
 OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
 
+<!-- Count metodekoder -->
+```{r echo = FALSE}
+# Heading and sub-heading for the table. Includes instructions for how to interpret the table
 heading <- paste("<br/> <br/>",
-                 "<h4> Tabell K-4. Pr\u00F8ver med mer enn \u00E9n konklusjonskjennelse for identiske konklusjonsanalytter og",
-                 "der konklusjonskjennelsene er motstridende </h4>",
-                 "<h5> En pr\u00F8ve kan ikke konkluderes med motstridende pr\u00F8vekonklusjoner for samme pr\u00F8veanalytt.",
-                 "Ber om at de pr\u00F8vekonklusjonene som er feil, fjernes fra saken. </h5>")
+                 "<h4> Tabell 2. Metodekoder registrert i data for", purpose, paste0(aar, ". </h4>"), 
+                 "<h5> 'N obs' angir antall ganger koden er benyttet.",
+                 "Hvis kolonnen 'Accepted' er inkludert,",
+                 "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
+                 "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
+                 "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
 
-# Identify cases that need to be checked
+# Counts the number of unique rows in the dataset with metodekode
+ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata, 
+                               variable = "metodekode", 
+                               accepted = metode2select,
+                               translation_table = PJS_codes_2_text)
+
+# Outputs the table if there are data in the table
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+<!-- Count konklusjonsanalyttkoder -->
+```{r echo = FALSE}
+# Heading and sub-heading for the table. Includes instructions for how to interpret the table
+heading <- paste("<br/> <br/>",
+                 "<h4> Tabell 3. Konklusjonsanalyttkoder registrert i data for", purpose, paste0(aar, ". </h4>"), 
+                 "<h5> 'N obs' angir antall ganger koden er benyttet.",
+                 "Hvis kolonnen 'Accepted' er inkludert,",
+                 "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
+                 "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
+                 "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
+
+# Counts the number of unique rows in the dataset with konklusjonsanalyttkode
 ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata,
                                variable = "konkl_analyttkode",
                                accepted = analytt2select,
                                translation_table = PJS_codes_2_text)
 
-# Remove heading if no data to report
+# Outputs the table if there are data in the table
 OKcheck::knit_table_if_data(data = ktr, heading = heading)
 
 ```
+
+```{r set-options, echo=FALSE, cache=FALSE, clean=FALSE}
+options(width = unlist(linewidth))
+```
+
 

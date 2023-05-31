@@ -3,24 +3,16 @@ OKcheck 0.3.0.9000 - (2023-##-##)
 
 New features:
 
--
-
-
-Bug fixes:
-
--
+- Improved `count_PJScodes` so that the argument `accepted` handles codes with ending "%" to include sub-levels of the code.
 
 
 Other changes:
 
 - Standardised help and included links. 
 
-- Improved argument checking for `count_PJScodes` and `find_accepted_code`.
+- Improved argument checking for `find_accepted_code`.
 
-
-BREAKING CHANGES:
-
--
+- Include rmarkdown template "check_ok_selection_parameters" for better reporting from `count_PJScodes` for hensiktkoder, metodekoder and konklusjonsanalyttkoder when checking the selection parameters for selecting data for diseases from PJS.
 
 
 OKcheck 0.3.0 - (2023-02-20)

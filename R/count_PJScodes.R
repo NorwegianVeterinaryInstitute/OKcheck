@@ -69,18 +69,16 @@ count_PJScodes <- function(PJSdata,
   # Report check-results
   checkmate::reportAssertions(checks)
 
-
+  # COUNT USED CODES ----
+  # Counts number of rows
   used_codes <- as.data.frame(PJSdata[, variable]) %>%
     dplyr::count(PJSdata[, variable])
   colnames(used_codes) <- c(variable, "n_obs")
   used_codes[, variable] = as.character(used_codes[, variable])
-  used_codes$var <- variable # %>%
-  used_codes <- used_codes[, c("var", variable, "n_obs")]
 
+  # Check which codes that are included in the selection parameters.
+  # Marks the codes with accepted = 1 if the code are included in teh selection parameters
   if (!is.null(accepted)) {
-    # used_codes$accepted <- 0
-    # used_codes[which(used_codes[, variable] %in% accepted), "accepted"] <- 1
-
     # transform value_2_check to regular expressions
     accepted <- paste0("^", accepted)
     acceptedx <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = accepted, fixed = TRUE)
@@ -92,9 +90,9 @@ count_PJScodes <- function(PJSdata,
 
     used_codes$accepted <- +(as.logical(used_codes$accepted))
     colnames(used_codes)[colnames(used_codes) == "used_code"] <- variable
-    # colnames(used_codes)[2] <- variable
   }
 
+  # Includes description text for the codes, if the translation table is available
   if (!is.null(translation_table) & variable %in% NVIdb::PJS_code_description_colname$code_colname) {
     # if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
     used_codes <- NVIdb::add_PJS_code_description(data = used_codes,
@@ -103,9 +101,9 @@ count_PJScodes <- function(PJSdata,
                                                   code_colname = variable,
                                                   new_column = "auto")
   }
-  colnames(used_codes)[colnames(used_codes) == variable] <- "used_code"
+
   return(as.data.frame(used_codes))
 }
 
 # To avoid checking of the variable kommune_fylke as default input argument in the function
-utils::globalVariables("PJS_codes_2_text")
+utils::globalVariables(names = c("PJS_codes_2_text", "used_code"))

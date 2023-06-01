@@ -1,7 +1,7 @@
 Package: OKcheck
 Title: Tools to facilitate checking of data from National Surveillance Programmes
-Version: 0.3.1
-Date: 2023-05-31
+Version: 0.3.2
+Date: 2023-06-01
 Authors@R:
   c(person(given = "Petter",
            family = "Hopp",

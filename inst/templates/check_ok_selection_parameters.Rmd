@@ -9,8 +9,8 @@ params:
     selection_parameters: 
 title: "`r paste('Kontroll av seleksjonsparameterne for:', params$purpose, params$aar)`"
 ---
-```{r set-options, echo=FALSE, cache=FALSE, clean=FALSE}
-linewidth <- options("width")
+```{r set_options, echo=FALSE, cache=FALSE, clean=FALSE}
+linewidth <- getOption("width")
 options(width = 1000)
 ```
 
@@ -53,7 +53,7 @@ heading <- paste("<br/> <br/>",
                  "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
                  "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
 
-# Counts the number of unique rows in the dataset with hensiktkode
+# Counts the number of unique rows at sak-level in the dataset with hensiktkode
 ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata, 
                                variable = "hensiktkode", 
                                accepted = c(hensikt2select, hensikt2delete),
@@ -74,7 +74,7 @@ heading <- paste("<br/> <br/>",
                  "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
                  "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
 
-# Counts the number of unique rows in the dataset with metodekode
+# Counts the number of unique rows at metode-level in the dataset with metodekode
 ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata, 
                                variable = "metodekode", 
                                accepted = metode2select,
@@ -95,7 +95,7 @@ heading <- paste("<br/> <br/>",
                  "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
                  "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
 
-# Counts the number of unique rows in the dataset with konklusjonsanalyttkode
+# Counts the number of unique rows at prove-konklusjon-level in the dataset with konklusjonsanalyttkode
 ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata,
                                variable = "konkl_analyttkode",
                                accepted = analytt2select,

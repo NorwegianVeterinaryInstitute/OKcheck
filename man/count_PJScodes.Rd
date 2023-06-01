@@ -32,9 +32,15 @@ A data frame with the used codes, their description and the number of
 Count used PJS-codes and marks whether they are accepted or not.
 }
 \details{
-The purpose is to give an overview of the PJS-codes used. PJS-codes
-   that are included in the control routines as accepted codes are marked. To
-   facilitate checking if additional codes should be added to the list of
+The purpose is to give an overview of the PJS-codes used. For codes
+   at sak-level, the number of saker for which the codes have been used is
+   given. For codes at metode-level, the number of undersokelser for which
+   the codes have been used is given, etc. The identifying of the PJS-level
+   is dependent on column being standardised, see
+   \ifelse{html}{\code{\link[NVIdb:standardize_PJSdata]{NVIdb::standardize_PJSdata}}}{\code{NVIdb::standardize_PJSdata}}.
+
+PJS-codes that are included in the control routines as accepted codes are marked.
+   To facilitate checking if additional codes should be added to the list of
    selected or deleted codes, the description text is added to the used codes.
    This is under the condition that the PJSdata have standardised column names.
 

@@ -1,9 +1,15 @@
 #' @title Count used PJS-codes
 #' @description Count used PJS-codes and marks whether they are accepted or not.
 #'
-#' @details The purpose is to give an overview of the PJS-codes used. PJS-codes
-#'    that are included in the control routines as accepted codes are marked. To
-#'    facilitate checking if additional codes should be added to the list of
+#' @details The purpose is to give an overview of the PJS-codes used. For codes
+#'    at sak-level, the number of saker for which the codes have been used is
+#'    given. For codes at metode-level, the number of undersokelser for which
+#'    the codes have been used is given, etc. The identifying of the PJS-level
+#'    is dependent on column being standardised, see
+#'    \ifelse{html}{\code{\link[NVIdb:standardize_PJSdata]{NVIdb::standardize_PJSdata}}}{\code{NVIdb::standardize_PJSdata}}.
+#'
+#' PJS-codes that are included in the control routines as accepted codes are marked.
+#'    To facilitate checking if additional codes should be added to the list of
 #'    selected or deleted codes, the description text is added to the used codes.
 #'    This is under the condition that the PJSdata have standardised column names.
 #'
@@ -47,17 +53,6 @@ count_PJScodes <- function(PJSdata,
                            accepted = NULL,
                            translation_table = PJS_codes_2_text) {
 
-  # # Translation table between standard PJS column name and PJS-type as used in PJS_codes_2_text
-  # PJS_codetype <- c("ansvarlig_seksjon" = "seksjon",
-  #                   "artkode" = "art", "driftsformkode" = "driftsform",
-  #                   "provetypekode" = "provetype", "provematerialekode" = "provemateriale",
-  #                   "metodekode" = "metode",
-  #                   "konkl_kjennelsekode" = "kjennelse", "konkl_analyttkode" = "analytt",
-  #                   "res_kjennelsekode" = "kjennelse", "res_analyttkode" = "analytt",
-  #                   "konkl_type" = "konkl_type", "eier_lokalitetstype" = "registertype")
-  #
-  # # PJStype <- PJS_codetype[variable]
-
   # ARGUMENT CHECKING ----
   # Object to store check-results
   checks <- checkmate::makeAssertCollection()
@@ -70,12 +65,31 @@ count_PJScodes <- function(PJSdata,
   checkmate::reportAssertions(checks)
 
   # COUNT USED CODES ----
-  # Counts number of rows
-  used_codes <- as.data.frame(PJSdata[, variable]) %>%
-    dplyr::count(PJSdata[, variable])
-  colnames(used_codes) <- c(variable, "n_obs")
-  used_codes[, variable] = as.character(used_codes[, variable])
+  # Identifies all variables in the index taking into consideration the PJS-level of the variable
+  # index <- c("aar", "ansvarlig_seksjon", "innsendelsenr", "saksnr")
+  # for (k in 1:length(variable)) {
+  # index <- union(index,
+  #                NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"])
+  index <- NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"]
+  # }
+  # Keeps only variables that exist in PJSdata. Necessary as resnr will not be in PJSdata.
+  index <- base::intersect(index, colnames(PJSdata))
+  # Generate data frame for check that only contains the relevant variables
+  used_codes <- as.data.frame(PJSdata[, unique(c(index, variable))])
+  if (!identical(index, character(0))) {
+    used_codes <- unique(used_codes)
+  } else {
+    colnames(used_codes) <- variable
+  }
 
+  # Counts number of rows
+  # used_codes <- as.data.frame(used_codes[, variable]) %>%
+  #   dplyr::count(used_codes[, variable])
+  used_codes <- stats::aggregate(x = used_codes[, variable], by = list(used_codes[, variable]), FUN = length)
+  colnames(used_codes) <- c(variable, "n_obs")
+  used_codes[, variable] <- as.character(used_codes[, variable])
+
+  # MARK ACCEPTED CODES ----
   # Check which codes that are included in the selection parameters.
   # Marks the codes with accepted = 1 if the code are included in teh selection parameters
   if (!is.null(accepted)) {
@@ -92,6 +106,7 @@ count_PJScodes <- function(PJSdata,
     colnames(used_codes)[colnames(used_codes) == "used_code"] <- variable
   }
 
+  # INCLUDE DESCRIPTIVE TEXT ----
   # Includes description text for the codes, if the translation table is available
   if (!is.null(translation_table) & variable %in% NVIdb::PJS_code_description_colname$code_colname) {
     # if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
@@ -106,4 +121,4 @@ count_PJScodes <- function(PJSdata,
 }
 
 # To avoid checking of the variable kommune_fylke as default input argument in the function
-utils::globalVariables(names = c("PJS_codes_2_text", "used_code"))
+utils::globalVariables(names = c("PJS_codes_2_text"))

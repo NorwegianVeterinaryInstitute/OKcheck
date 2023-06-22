@@ -7,7 +7,7 @@ params:
     purpose: "ok_sykdom_art"
     aar: "`r as.numeric(format(Sys.Date(), '%Y')) - 1`"
     selection_parameters: 
-title: "`r paste('Kontroll av seleksjonsparameterne for:', params$purpose, params$aar)`"
+title: "`r paste('Kontroll av seleksjonsparameterne for:', params$purpose, paste(unique(c(min(params$aar), max(params$aar))),  collapse = ' - '))`"
 ---
 ```{r set_options, echo=FALSE, cache=FALSE, clean=FALSE}
 linewidth <- getOption("width")
@@ -38,7 +38,7 @@ knitr::opts_chunk$set(echo=TRUE)
 ```
 
 ```{r, include = FALSE}
-## Kontroll av seleksjonsparameterne for: `r purpose` `r aar` per `r format(Sys.Date(), "%d.%m.%Y")`
+## Kontroll av seleksjonsparameterne for: `r purpose` `r paste(unique(c(min(aar), max(aar))), collapse = " - ")` per `r format(Sys.Date(), "%d.%m.%Y")`
 
 ```
 
@@ -46,7 +46,9 @@ knitr::opts_chunk$set(echo=TRUE)
 ```{r echo = FALSE}
 # Heading and sub-heading for the table. Includes instructions for how to interpret the table
 heading <- paste("<br/> <br/>",
-                 "<h4> Tabell 1. Hensiktkoder registrert i data for", purpose, paste0(aar, ". </h4>"), 
+                 "<h4> Tabell 1. Hensiktkoder registrert i data for", 
+                 purpose, 
+                 paste0(paste(unique(c(min(aar), max(aar))), collapse = " - "), ". </h4>"), 
                  "<h5> 'N obs' angir antall ganger koden er benyttet.",
                  "Hvis kolonnen 'Accepted' er inkludert,",
                  "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
@@ -67,7 +69,9 @@ OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```{r echo = FALSE}
 # Heading and sub-heading for the table. Includes instructions for how to interpret the table
 heading <- paste("<br/> <br/>",
-                 "<h4> Tabell 2. Metodekoder registrert i data for", purpose, paste0(aar, ". </h4>"), 
+                 "<h4> Tabell 2. Metodekoder registrert i data for",  
+                 purpose, 
+                 paste0(paste(unique(c(min(aar), max(aar))), collapse = " - "), ". </h4>"), 
                  "<h5> 'N obs' angir antall ganger koden er benyttet.",
                  "Hvis kolonnen 'Accepted' er inkludert,",
                  "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
@@ -88,7 +92,9 @@ OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```{r echo = FALSE}
 # Heading and sub-heading for the table. Includes instructions for how to interpret the table
 heading <- paste("<br/> <br/>",
-                 "<h4> Tabell 3. Konklusjonsanalyttkoder registrert i data for", purpose, paste0(aar, ". </h4>"), 
+                 "<h4> Tabell 3. Konklusjonsanalyttkoder registrert i data for",  
+                 purpose, 
+                 paste0(paste(unique(c(min(aar), max(aar))), collapse = " - "), ". </h4>"), 
                  "<h5> 'N obs' angir antall ganger koden er benyttet.",
                  "Hvis kolonnen 'Accepted' er inkludert,",
                  "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",

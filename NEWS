@@ -1,3 +1,11 @@
+OKcheck 0.3.3 - (2023-06-22)
+----------------------------------------
+
+Bug fixes:
+
+- Corrected heading in check_ok_selection_parameters.Rmd when year is more than one year.
+
+
 OKcheck 0.3.2 - (2023-06-01)
 ----------------------------------------
 

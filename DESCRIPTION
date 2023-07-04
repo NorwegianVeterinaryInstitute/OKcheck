@@ -38,6 +38,7 @@ Remotes:
     github::NorwegianVeterinaryInstitute/NVIrpackages
 Suggests: 
     covr,
+    desc,
     devtools,
     testthat (>= 3.0.0),
     usethis,

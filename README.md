@@ -1,4 +1,4 @@
-# OKcheck: Tools to facilitate checking of data from National Surveillance Programmes
+# OKcheck: Tools to facilitate checking of data from National Surveillance Programmes <img src="man/figures/OKcheck_logo.png" align="right" height="138" />
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -28,7 +28,7 @@ for more information.
 [GitHub](https://github.com/NorwegianVeterinaryInstitute). To install
 `OKcheck` you will need:
 
--   R version &gt; 4.0.0
+-   R version > 4.0.0
 -   R package `remotes`
 -   Rtools 4.0 or Rtools 4.2 depending on R version
 
@@ -53,15 +53,30 @@ The `OKcheck` package needs to be attached.
 `OKcheck`provide tools to facilitate checking of data from national
 surveillance programmes.
 
-#### Help
+#### Further documentation
+
+##### Help
 
 The full list of all available functions and datasets can be accessed by
 typing
 
     help(package = "OKcheck")
 
-Please check the NEWS for information on new features, bug fixes and
-other changes.
+##### Vignettes
+
+Consult the vignettes for task-oriented help.
+
+    vignette(package = "OKcheck")
+
+Vignettes in package `OKcheck`:
+
+-   Contribute to OKcheck (html)
+
+##### NEWS
+
+Please check the
+[NEWS](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/NEWS)
+for information on new features, bug fixes and other changes.
 
 ## Copyright and license
 

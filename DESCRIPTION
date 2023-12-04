@@ -21,21 +21,15 @@ RoxygenNote: 7.2.3
 Imports: 
     checkmate,
     dplyr,
+    htmltools,
     kableExtra,
     knitr,
     magrittr,
     rlang,
     rmarkdown,
-    shiny,
     tidyr,
     NVIbatch (>= 0.4.0),
-    NVIdb (>= 0.7.0),
-    NVIrpackages
-Remotes: 
-    github::NorwegianVeterinaryInstitute/NVIbatch,
-    github::NorwegianVeterinaryInstitute/NVIdb,
-    github::NorwegianVeterinaryInstitute/NVIpackager,
-    github::NorwegianVeterinaryInstitute/NVIrpackages
+    NVIdb (>= 0.7.0)
 Suggests: 
     covr,
     desc,
@@ -43,7 +37,13 @@ Suggests:
     testthat (>= 3.0.0),
     usethis,
     utils,
-    NVIpackager
+    NVIpackager,
+    NVIrpackages
+Remotes: 
+    github::NorwegianVeterinaryInstitute/NVIbatch,
+    github::NorwegianVeterinaryInstitute/NVIdb,
+    github::NorwegianVeterinaryInstitute/NVIpackager,
+    github::NorwegianVeterinaryInstitute/NVIrpackages
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Depends: 

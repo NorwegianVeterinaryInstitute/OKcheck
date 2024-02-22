@@ -8,6 +8,7 @@ count_PJScodes(
   PJSdata,
   variable,
   accepted = NULL,
+  excluded = NULL,
   translation_table = PJS_codes_2_text
 )
 }
@@ -20,6 +21,9 @@ The variable in the data that should be checked.}
 
 \item{accepted}{[\code{character}]\cr
 Vector with accepted code values. Defaults to \code{NULL}.}
+
+\item{excluded}{[\code{character}]\cr
+Vector with code values that should be excluded. Defaults to \code{NULL}.}
 
 \item{translation_table}{[\code{data.frame}]\cr
 The translation table for PJS-codes, see details.}

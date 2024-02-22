@@ -91,9 +91,7 @@ Other features:
   
 OKcheck 0.1.0 - (2022-01-07)
 
-First release:
-  
-  Tools to facilitate checking of data from National Surveillance Programmes.
+First release: Tools to facilitate checking of data from National Surveillance Programmes.
 
 - 'count_PJScodes' gives an overview of codes used for a variable.
 

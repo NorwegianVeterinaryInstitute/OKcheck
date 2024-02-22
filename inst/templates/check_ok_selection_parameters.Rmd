@@ -4,7 +4,7 @@ output:
     keep_md: yes
 params: 
     data: 
-    purpose: "ok_sykdom_art"
+    purpose: "ok_art_sykdom"
     aar: "`r as.numeric(format(Sys.Date(), '%Y')) - 1`"
     selection_parameters: 
 title: "`r paste('Kontroll av seleksjonsparameterne for:', params$purpose, paste(unique(c(min(params$aar), max(params$aar))),  collapse = ' - '))`"
@@ -30,9 +30,11 @@ aar <- params$aar
 # selection_parameters should be a list built by NVIdb::set_disease_parameters or built similarly manually
 selection_parameters <- params$selection_parameters
 hensikt2select <- selection_parameters$hensikt2select
+hensikt2delete <- selection_parameters$hensikt2delete
 metode2select <- selection_parameters$metode2select
 analytt2select <- selection_parameters$analytt2select
-hensikt2delete <- selection_parameters$hensikt2delete
+analytt2delete <- selection_parameters$analytt2delete
+art2select <- selection_parameters$art2select
 
 knitr::opts_chunk$set(echo=TRUE)
 ```
@@ -51,14 +53,15 @@ heading <- paste("<br/> <br/>",
                  paste0(paste(unique(c(min(aar), max(aar))), collapse = " - "), ". </h4>"), 
                  "<h5> 'N obs' angir antall ganger koden er benyttet.",
                  "Hvis kolonnen 'Accepted' er inkludert,",
-                 "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
+                 "betyr verdien 1 at koden er inkludert i seleksjons- eller eksklusjonsparametrene.",
                  "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
                  "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
 
 # Counts the number of unique rows at sak-level in the dataset with hensiktkode
 ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata, 
                                variable = "hensiktkode", 
-                               accepted = c(hensikt2select, hensikt2delete),
+                               accepted = hensikt2select,
+                               excluded = hensikt2delete,
                                translation_table = PJS_codes_2_text)
 
 # Outputs the table if there are data in the table
@@ -97,14 +100,39 @@ heading <- paste("<br/> <br/>",
                  paste0(paste(unique(c(min(aar), max(aar))), collapse = " - "), ". </h4>"), 
                  "<h5> 'N obs' angir antall ganger koden er benyttet.",
                  "Hvis kolonnen 'Accepted' er inkludert,",
-                 "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
+                 "betyr verdien 1 at koden er inkludert i seleksjons- eller eksklusjonsparametrene.",
                  "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
                  "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
 
 # Counts the number of unique rows at prove-konklusjon-level in the dataset with konklusjonsanalyttkode
 ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata,
                                variable = "konkl_analyttkode",
-                               accepted = analytt2select,
+                               accepted = analytt2select, 
+                               excluded = analytt2delete,
+                               translation_table = PJS_codes_2_text)
+
+# Outputs the table if there are data in the table
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+
+```
+
+<!-- Count artkoder -->
+```{r echo = FALSE}
+# Heading and sub-heading for the table. Includes instructions for how to interpret the table
+heading <- paste("<br/> <br/>",
+                 "<h4> Tabell 4. Artskoder registrert i data for",  
+                 purpose, 
+                 paste0(paste(unique(c(min(aar), max(aar))), collapse = " - "), ". </h4>"), 
+                 "<h5> 'N obs' angir antall ganger koden er benyttet.",
+                 "Hvis kolonnen 'Accepted' er inkludert,",
+                 "betyr verdien 1 at koden er inkludert i seleksjonsparametrene.",
+                 "Dersom en kode merket 0 er spesifikk for den sykdommen/infeksjonen som det",
+                 "selekteres for, bør den inkluderes i seleksjonsparametrene. </h5>")
+
+# Counts the number of unique rows at prove-level in the dataset with artkode
+ktr <- OKcheck::count_PJScodes(PJSdata = PJSdata,
+                               variable = "artkode",
+                               accepted = art2select,
                                translation_table = PJS_codes_2_text)
 
 # Outputs the table if there are data in the table

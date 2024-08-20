@@ -74,7 +74,7 @@ count_PJScodes <- function(PJSdata,
   # for (k in 1:length(variable)) {
   # index <- union(index,
   #                NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"])
-  index <- NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"]
+  index <- NVIpjsr::PJS_levels[which(NVIpjsr::PJS_levels[1:10, which(NVIpjsr::PJS_levels[which(NVIpjsr::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"]
   # }
   # Keeps only variables that exist in PJSdata. Necessary as resnr will not be in PJSdata.
   index <- base::intersect(index, colnames(PJSdata))
@@ -135,13 +135,13 @@ count_PJScodes <- function(PJSdata,
 
   # INCLUDE DESCRIPTIVE TEXT ----
   # Includes description text for the codes, if the translation table is available
-  if (!is.null(translation_table) & variable %in% NVIdb::PJS_code_description_colname$code_colname) {
+  if (!is.null(translation_table) & variable %in% NVIpjsr::PJS_code_description_colname$code_colname) {
     # if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
-    used_codes <- NVIdb::add_PJS_code_description(data = used_codes,
-                                                  translation_table = translation_table,
-                                                  PJS_variable_type = "auto",
-                                                  code_colname = variable,
-                                                  new_column = "auto")
+    used_codes <- NVIpjsr::add_PJS_code_description(data = used_codes,
+                                                    translation_table = translation_table,
+                                                    PJS_variable_type = "auto",
+                                                    code_colname = variable,
+                                                    new_column = "auto")
   }
 
   return(as.data.frame(used_codes))

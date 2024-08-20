@@ -14,6 +14,8 @@
 
 - Updated help in README.
 
+- Updated dependencies to NVIpjsr instead of NVIdb when relevant. 
+
 
 ## BREAKING CHANGES:
 

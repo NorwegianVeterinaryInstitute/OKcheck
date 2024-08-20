@@ -1,43 +1,40 @@
-OKcheck 0.3.3.9000 - (2023-##-##)
-----------------------------------------
+# OKcheck 0.3.3.9000 - (2023-##-##)
 
-New features:
-
--
-
-
-Bug fixes:
+## New features:
 
 -
 
 
-Other changes:
+## Bug fixes:
+
+-
+
+
+## Other changes:
 
 - Updated help in README.
 
 
-BREAKING CHANGES:
+## BREAKING CHANGES:
 
 -
 
 
-OKcheck 0.3.3 - (2023-06-22)
-----------------------------------------
+# OKcheck 0.3.3 - (2023-06-22)
 
-Bug fixes:
+## Bug fixes:
 
 - Corrected heading in "check_ok_selection_parameters.Rmd" when year is more than one year.
 
 
-OKcheck 0.3.2 - (2023-06-01)
-----------------------------------------
+# OKcheck 0.3.2 - (2023-06-01)
 
-New features:
+## New features:
 
 - Improved `count_PJScodes` so that the argument `accepted` handles codes with ending "%" to include sub-levels of the code.
 
 
-Other changes:
+## Other changes:
 
 - Standardised help and included links. 
 
@@ -46,36 +43,36 @@ Other changes:
 - Include rmarkdown template "check_ok_selection_parameters" for better reporting from `count_PJScodes` for hensiktkoder, metodekoder and konklusjonsanalyttkoder when checking the selection parameters for selecting data for diseases from PJS.
 
 
-OKcheck 0.3.0 - (2023-02-20)
+# OKcheck 0.3.0 - (2023-02-20)
 
 
-New features:
+## New features:
 
 - Created `check_ok_PJSdata` to facilitate output of check result in a browser or send the output file by email. `check_ok_data` is a wrapper for `NVIbatch::output_rendered`.
 
 
-Bug fixes:
+## Bug fixes:
 
 - Fixed difficulties in installing due to dependencies when building the vignettes: Contribute_to_OKcheck.
 
 
-Other changes:
+## Other changes:
 
 - Updated README and corrected installation guidelines.
 
 - Updated CONTRIBUTING and the vignette: Contribute_to_OKcheck.
 
 
-OKcheck 0.2.1 - (2022-03-14)
+# OKcheck 0.2.1 - (2022-03-14)
 
-Bug fixes:
+## Bug fixes:
 
 - The setting of the variable accept was taken out of the package and must be set in the script using the the Rmd-files.
 
 
-OKcheck 0.2.0 - (2022-03-14)
+# OKcheck 0.2.0 - (2022-03-14)
 
-New features:
+## New features:
 
 - 'find_accepted_code' supports combinations of variables.
 
@@ -89,9 +86,9 @@ Other features:
 - OKcheck is dependent on NVIdb >= v0.7.0 due to the dependency of 'NVIdb::add_PJS_code_description' in this version..
 
   
-OKcheck 0.1.0 - (2022-01-07)
+# OKcheck 0.1.0 - (2022-01-07)
 
-First release: Tools to facilitate checking of data from National Surveillance Programmes.
+## First release: Tools to facilitate checking of data from National Surveillance Programmes.
 
 - 'count_PJScodes' gives an overview of codes used for a variable.
 

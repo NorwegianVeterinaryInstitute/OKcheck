@@ -1,5 +1,6 @@
 library(OKcheck)
 library(NVIdb)
+library(NVIpjsr)
 library(testthat)
 library(checkmate)
 
@@ -24,7 +25,7 @@ test_that("check counting in count_PJScodes for metodekode", {
   # skip if no connection to 'FAG' have been established
   skip_if_not(dir.exists(set_dir_NVI("FAG")))
 
-  PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+  PJS_codes_2_text <- NVIpjsr::read_PJS_codes_2_text()
 
   ktr <- count_PJScodes(PJSdata = PJSdata,
                         variable = "metodekode",
@@ -44,7 +45,7 @@ test_that("check counting in count_PJScodes for hensiktkode", {
   # skip if no connection to 'FAG' have been established
   skip_if_not(dir.exists(set_dir_NVI("FAG")))
 
-  PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+  PJS_codes_2_text <- NVIpjsr::read_PJS_codes_2_text()
 
   # Generate test data
   PJSdata <- as.data.frame(c("0100101015", "0100101015", "01001", "0200105", "0200126", "0400109"))
@@ -89,7 +90,7 @@ test_that("errors for count_PJScodes", {
   # skip if no connection to 'FAG' have been established
   skip_if_not(dir.exists(set_dir_NVI("FAG")))
 
-  PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+  PJS_codes_2_text <- NVIpjsr::read_PJS_codes_2_text()
 
   expect_error(count_PJScodes(PJSdata = PJSdata,
                               variable = "metodekode",

@@ -14,7 +14,7 @@
 
 - Updated help in README.
 
-- Updated dependencies to NVIpjsr instead of NVIdb when relevant. 
+- Updated dependencies to `NVIpjsr` instead of `NVIdb` for `choose_PJS_levels` and `add_PJS_code_description`. 
 
 
 ## BREAKING CHANGES:

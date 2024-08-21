@@ -8,4 +8,5 @@ ignore_unused_imports <- function() {
   # Removes NOTE because of packages needed for Rmd templates used for checking data"
   rmarkdown::html_vignette
   htmltools::knit_print.html
+  tidyr::pivot_wider
 }

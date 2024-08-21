@@ -25,7 +25,6 @@ Imports:
     kableExtra,
     knitr,
     magrittr,
-    rlang,
     rmarkdown,
     tidyr,
     NVIbatch (>= 0.4.0),

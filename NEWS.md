@@ -1,25 +1,10 @@
-# OKcheck 0.3.3.9000 - (2023-##-##)
-
-## New features:
-
--
-
-
-## Bug fixes:
-
--
-
+# OKcheck 0.3.4 - (2024-08-21)
 
 ## Other changes:
 
 - Updated help in README.
 
-- Updated dependencies to `NVIpjsr` instead of `NVIdb` for `choose_PJS_levels` and `add_PJS_code_description`. 
-
-
-## BREAKING CHANGES:
-
--
+- Updated dependencies to `NVIpjsr::choose_PJS_levels`  and `NVIpjsr::add_PJS_code_description` for `count_PJScodes`. 
 
 
 # OKcheck 0.3.3 - (2023-06-22)

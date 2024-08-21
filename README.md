@@ -1,4 +1,4 @@
-# OKcheck: Tools to facilitate checking of data from National Surveillance Programmes
+# OKcheck: Tools to facilitate checking of data from National Surveillance Programmes <img src="man/figures/OKcheck_logo.png" align="right" height="138" />
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -16,9 +16,9 @@ surveillance programmes.
 `OKcheck` is part of `NVIverse`, a collection of R-packages with tools
 to facilitate data management and data reporting at the Norwegian
 Veterinary Institute (NVI). The `NVIverse` consists of the following
-packages: `NVIconfig`, `NVIdb`, `NVIspatial`, `NVIpretty`, `NVIbatch`,
-`OKplan`, `OKcheck`, `NVIcheckmate`, `NVIpackager`, `NVIrpackages`. See
-[Contribute to
+packages: `NVIconfig`, `NVIdb`, `NVIpjsr`, `NVIspatial`, `NVIpretty`,
+`NVIbatch`, `OKplan`, `OKcheck`, `NVIcheckmate`, `NVIpackager`,
+`NVIrpackages`. See [Contribute to
 OKcheck](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/CONTRIBUTING.md)
 for more information.
 
@@ -28,16 +28,31 @@ for more information.
 [GitHub](https://github.com/NorwegianVeterinaryInstitute). To install
 `OKcheck` you will need:
 
--   R version &gt; 4.0.0
+-   R version &gt; 4.1.0
 -   R package `remotes`
--   Rtools 4.0 or Rtools 4.2 depending on R version
+-   Rtools version 4.0, 4.2, 4.3 or 4.4 depending on R version
 
 First install and attach the `remotes` package.
 
     install.packages("remotes")
     library(remotes)
 
-To install (or update) the `OKcheck` package, run the following code:
+To install (or update) the `OKcheck` package without vignettes, run the
+following code:
+
+    remotes::install_github("NorwegianVeterinaryInstitute/OKcheck",
+        upgrade = FALSE,
+        build = TRUE,
+        build_vignettes = FALSE)
+
+To install (or update) the `OKcheck` package with vignettes, you will
+need to first install some additional R-packages needed to build the
+vignettes. Check README below in the section [Vignettes](#vignettes) to
+see which vignettes are available. To install the package with the
+vignettes, first install the packages: `knitr`, `rmarkdown`, `R.rsp`,
+and `NVIrpackages` (from GitHub) if they are missing. If you don’t use
+R-studio, you will also need to install Pandoc. Then run the following
+code:
 
     remotes::install_github("NorwegianVeterinaryInstitute/OKcheck",
         upgrade = FALSE,
@@ -53,19 +68,34 @@ The `OKcheck` package needs to be attached.
 `OKcheck`provide tools to facilitate checking of data from national
 surveillance programmes.
 
-#### Help
+#### Further documentation
+
+##### Help
 
 The full list of all available functions and datasets can be accessed by
 typing
 
     help(package = "OKcheck")
 
-Please check the NEWS for information on new features, bug fixes and
-other changes.
+##### Vignettes
+
+Consult the vignettes for task-oriented help.
+
+    vignette(package = "OKcheck")
+
+Vignettes in package `OKcheck`:
+
+-   Contribute to OKcheck (html)
+
+##### NEWS
+
+Please check the
+[NEWS](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/NEWS)
+for information on new features, bug fixes and other changes.
 
 ## Copyright and license
 
-Copyright (c) 2022 - 2023 Norwegian Veterinary Institute.  
+Copyright (c) 2022 - 2024 Norwegian Veterinary Institute.  
 Licensed under the BSD\_3\_clause License. See
 [License](https://github.com/NorwegianVeterinaryInstitute/OKcheck/blob/main/LICENSE)
 for details.

@@ -1,7 +1,7 @@
 Package: OKcheck
 Title: Tools to facilitate checking of data from National Surveillance Programmes
-Version: 0.3.3
-Date: 2023-06-22
+Version: 0.3.4
+Date: 2024-08-21
 Authors@R:
   c(person(given = "Petter",
            family = "Hopp",
@@ -17,32 +17,35 @@ License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Imports: 
     checkmate,
     dplyr,
+    htmltools,
     kableExtra,
     knitr,
     magrittr,
     rlang,
     rmarkdown,
-    shiny,
     tidyr,
     NVIbatch (>= 0.4.0),
     NVIdb (>= 0.7.0),
+    NVIpjsr
+Suggests: 
+    covr,
+    desc,
+    devtools,
+    testthat (>= 3.0.0),
+    usethis,
+    utils,
+    NVIpackager,
     NVIrpackages
 Remotes: 
     github::NorwegianVeterinaryInstitute/NVIbatch,
     github::NorwegianVeterinaryInstitute/NVIdb,
     github::NorwegianVeterinaryInstitute/NVIpackager,
+    github::NorwegianVeterinaryInstitute/NVIpjsr,
     github::NorwegianVeterinaryInstitute/NVIrpackages
-Suggests: 
-    covr,
-    devtools,
-    testthat (>= 3.0.0),
-    usethis,
-    utils,
-    NVIpackager
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Depends: 

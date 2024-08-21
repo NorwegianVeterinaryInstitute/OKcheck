@@ -1,12 +1,11 @@
 # Remove NOTE when running CMD check and checking dependencies
 # Namespaces in Imports field not imported from:
-#   'NVIrpackages' 'rlang' 'rmarkdown' 'shiny' 'tidyr'
+#   'rlang' 'rmarkdown' 'tidyr'
 # All declared Imports should be used.
 
 
 ignore_unused_imports <- function() {
-  # Removes NOTE because of packages needed for building vignette: "Contribute to ..."
+  # Removes NOTE because of packages needed for Rmd templates used for checking data"
   rmarkdown::html_vignette
-  knitr::opts_chunk
-  NVIrpackages::NVIpackages
+  htmltools::knit_print.html
 }

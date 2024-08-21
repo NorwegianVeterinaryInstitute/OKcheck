@@ -26,6 +26,8 @@
 #'     The variable in the data that should be checked.
 #' @param accepted [\code{character}]\cr
 #'     Vector with accepted code values. Defaults to \code{NULL}.
+#' @param excluded [\code{character}]\cr
+#'     Vector with code values that should be excluded. Defaults to \code{NULL}.
 #' @param translation_table [\code{data.frame}]\cr
 #'     The translation table for PJS-codes, see details.
 #'
@@ -51,6 +53,7 @@
 count_PJScodes <- function(PJSdata,
                            variable,
                            accepted = NULL,
+                           excluded = NULL,
                            translation_table = PJS_codes_2_text) {
 
   # ARGUMENT CHECKING ----
@@ -60,6 +63,7 @@ count_PJScodes <- function(PJSdata,
   checkmate::assert_data_frame(PJSdata, add = checks)
   checkmate::assert_choice(variable, choices = colnames(PJSdata), add = checks)
   checkmate::assert_character(accepted, null.ok = TRUE, add = checks)
+  checkmate::assert_character(excluded, null.ok = TRUE, add = checks)
   checkmate::assert_data_frame(translation_table, null.ok = TRUE, add = checks)
   # Report check-results
   checkmate::reportAssertions(checks)
@@ -70,7 +74,7 @@ count_PJScodes <- function(PJSdata,
   # for (k in 1:length(variable)) {
   # index <- union(index,
   #                NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"])
-  index <- NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:10, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"]
+  index <- NVIpjsr::PJS_levels[which(NVIpjsr::PJS_levels[1:10, which(NVIpjsr::PJS_levels[which(NVIpjsr::PJS_levels$variable == variable), ] == 1)[1]] == 1), "variable"]
   # }
   # Keeps only variables that exist in PJSdata. Necessary as resnr will not be in PJSdata.
   index <- base::intersect(index, colnames(PJSdata))
@@ -91,7 +95,7 @@ count_PJScodes <- function(PJSdata,
 
   # MARK ACCEPTED CODES ----
   # Check which codes that are included in the selection parameters.
-  # Marks the codes with accepted = 1 if the code are included in teh selection parameters
+  # Marks the codes with accepted = 1 if the code are included in the selection parameters
   if (!is.null(accepted)) {
     # transform value_2_check to regular expressions
     accepted <- paste0("^", accepted)
@@ -106,19 +110,42 @@ count_PJScodes <- function(PJSdata,
     colnames(used_codes)[colnames(used_codes) == "used_code"] <- variable
   }
 
+  # MARK EXCLUDED CODES ----
+  # Check which codes that should be excluded from the selection parameters.
+  # Marks the codes with accepted = 9 if the code are excluded from the selection parameters
+  if (!is.null(excluded)) {
+    # transform value_2_check to regular expressions
+    excluded <- paste0("^", excluded)
+    excludedx <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = excluded, fixed = TRUE)
+
+    colnames(used_codes)[colnames(used_codes) == variable] <- "used_code"
+    used_codes <- used_codes %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(excluded = max(unlist(lapply(excludedx, grep, x = used_code)), 0))
+
+    used_codes$excluded <- +(as.logical(used_codes$excluded))
+    colnames(used_codes)[colnames(used_codes) == "used_code"] <- variable
+  }
+
+  if (!is.null(excluded)) {
+    if (is.null(accepted)) {used_codes$accepted <- 0}
+    used_codes[which(used_codes$excluded == 1), "accepted"] <- 9
+    used_codes$excluded <- NULL
+  }
+
   # INCLUDE DESCRIPTIVE TEXT ----
   # Includes description text for the codes, if the translation table is available
-  if (!is.null(translation_table) & variable %in% NVIdb::PJS_code_description_colname$code_colname) {
+  if (!is.null(translation_table) & variable %in% NVIpjsr::PJS_code_description_colname$code_colname) {
     # if (!is.null(translation_table) & variable %in% names(PJS_codetype)) {
-    used_codes <- NVIdb::add_PJS_code_description(data = used_codes,
-                                                  translation_table = translation_table,
-                                                  PJS_variable_type = "auto",
-                                                  code_colname = variable,
-                                                  new_column = "auto")
+    used_codes <- NVIpjsr::add_PJS_code_description(data = used_codes,
+                                                    translation_table = translation_table,
+                                                    PJS_variable_type = "auto",
+                                                    code_colname = variable,
+                                                    new_column = "auto")
   }
 
   return(as.data.frame(used_codes))
 }
 
-# To avoid checking of the variable kommune_fylke as default input argument in the function
+# To avoid checking of the variable PJS_codes_2_text as default input argument in the function
 utils::globalVariables(names = c("PJS_codes_2_text"))

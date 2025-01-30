@@ -89,7 +89,11 @@ count_PJScodes <- function(PJSdata,
   # Counts number of rows
   # used_codes <- as.data.frame(used_codes[, variable]) %>%
   #   dplyr::count(used_codes[, variable])
+  if (nrow(used_codes > 0)) {
   used_codes <- stats::aggregate(x = used_codes[, variable], by = list(used_codes[, variable]), FUN = length)
+  } else {
+    used_codes <- used_codes[, c(variable, variable)]
+  }
   colnames(used_codes) <- c(variable, "n_obs")
   used_codes[, variable] <- as.character(used_codes[, variable])
 

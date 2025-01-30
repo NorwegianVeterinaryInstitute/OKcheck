@@ -3,11 +3,11 @@
 
 heading <- paste("<br/> <br/>",
                  "<h4> Tabell Kx-3. Avsluttede saker med minst \u00E9n pr\u00F8ve som har positiv konklusjon for",
-                 unname(NVIdb::add_PJS_code_description(data = as.data.frame(analyttkode), 
-                                translation_table = PJS_codes_2_text,
-                                new_column = "analytt", 
-                                code_colname = "analyttkode", 
-                                PJS_variable_type = "analytt")[2]),
+                 unname(NVIpjsr::add_PJS_code_description(data = as.data.frame(analyttkode), 
+                                                          translation_table = PJS_codes_2_text,
+                                                          new_column = "analytt", 
+                                                          code_colname = "analyttkode", 
+                                                          PJS_variable_type = "analytt")[2]),
                  ", men som mangler dette som sakskonklusjon </h4>",
                  "<h5> Ber om at det sjekkes om det også skal legges inn som sakskonklusjonen,",
                  "eller om pr\u00F8vekonklusjonen kan være feil. </h5>")
@@ -37,8 +37,8 @@ ktr <- PJSdata %>%
   dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
   dplyr::select(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode) %>%
   NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
-                                  code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
-                                  new_column = c("konkl_kjennelse", "konkl_analytt")) 
+                                    code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
+                                    new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
 # Remove heading if no data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)

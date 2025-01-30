@@ -18,7 +18,7 @@ options(width = 1000)
 # Attach packages
 library(NVIbatch)
 use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra", "htmltools"))
-use_NVIverse(pkg = c("NVIdb", "OKcheck"))
+use_NVIverse(pkg = c("NVIdb", "NVIpjsr", "OKcheck"))
 
 # Global variables
 # For use in filenames
@@ -26,7 +26,7 @@ today <- format(Sys.Date(), "%Y%m%d")
 
 # Import support data
 # Translation table for PJS-codes
-PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+PJS_codes_2_text <- NVIpjsr::read_PJS_codes_2_text()
 
 data <- params$data
 purpose <- params$purpose
@@ -78,7 +78,7 @@ combinations <- rbind(combinations,
                                            ncol = 3, 
                                            dimnames = list(NULL, c("var1", "var2", "var3")))))
 
-# # Relation between column name and pJS-type as used by NVIdb::add_PJS_code_description below 
+# # Relation between column name and pJS-type as used by NVIpjsr::add_PJS_code_description below 
 # PJS_code_variables <- c("hensiktkode", "rekvirenttype", "eier_lokalitettype", "annen_aktortype",
 #                         "artkode", "driftsformkode", "oppstallingkode", "fysiologisk_stadiumkode", "kjonn",
 #                         "provetypekode", "provematerialekode", "forbehandlingkode",

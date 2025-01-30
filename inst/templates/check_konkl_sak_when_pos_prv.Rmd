@@ -36,7 +36,7 @@ ktr <- PJSdata %>%
   dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
   dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
   dplyr::select(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode) %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
+  NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 

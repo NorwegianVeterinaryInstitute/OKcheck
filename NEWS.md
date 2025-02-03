@@ -7,12 +7,12 @@
 
 ## Bug fixes:
 
--
+- `count_PJScodes` now accepts an empty `data.frame` as input to PJSdata.
 
 
 ## Other changes:
 
--
+- Updated dependencies to using NVIpjsr in Rmd-templates used in check-routines. 
 
 
 ## BREAKING CHANGES:

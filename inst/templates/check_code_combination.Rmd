@@ -38,7 +38,7 @@ if (length(code_2_accept) > 0) {
   index <- c("aar", "ansvarlig_seksjon", "innsendelsenr")
   for (k in 1:length(code_variable)) {
     index <- union(index,
-                   NVIdb::PJS_levels[which(NVIdb::PJS_levels[1:8, which(NVIdb::PJS_levels[which(NVIdb::PJS_levels$variable == code_variable[k]), ] == 1)[1]] == 1), "variable"])
+                   NVIpjsr::PJS_levels[which(NVIpjsr::PJS_levels[1:8, which(NVIpjsr::PJS_levels[which(NVIpjsr::PJS_levels$variable == code_variable[k]), ] == 1)[1]] == 1), "variable"])
   }
   # Keeps only variables that exist in PJSdata. Necessary as resnr will not be in PJSdata.
   index <- base::intersect(index, colnames(PJSdata))
@@ -95,8 +95,8 @@ if (length(code_2_accept) > 0) {
   
   # Add description text to PJS-codes
   for (j in c("hensiktkode", code_variable)) {
-    if (j %in% intersect(NVIdb::PJS_code_description_colname$code_colname, colnames(ktr))) {
-      ktr <- NVIdb::add_PJS_code_description(data = ktr,
+    if (j %in% intersect(NVIpjsr::PJS_code_description_colname$code_colname, colnames(ktr))) {
+      ktr <- NVIpjsr::add_PJS_code_description(data = ktr,
                                              translation_table = PJS_codes_2_text,
                                              PJS_variable_type = "auto",
                                              code_colname = j,

@@ -42,7 +42,7 @@ code_2_accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = code_2_acce
   # dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
   # dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
   dplyr::select(saksnr, provenr, konkl_analyttkode) %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("analytt"),
+  NVIpjsr::add_PJS_code_description(PJS_variable_type = c("analytt"),
                                   code_colname = c("konkl_analyttkode"),
                                   new_column = c("konkl_analytt")) 
 } else { ktr <- data.frame()}

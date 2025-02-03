@@ -15,7 +15,7 @@ ktr <- PJSdata %>%
   dplyr::filter(n > 1) %>%
   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, n)) %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
+  NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 

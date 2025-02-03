@@ -4,4 +4,5 @@
 ^notes$
 ^CONTRIBUTING\.md$
 ^README\.Rmd$
+^LICENSE\.md$
 ^data-raw$

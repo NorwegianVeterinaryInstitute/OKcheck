@@ -1,10 +1,5 @@
 # OKcheck 0.3.4.9000 - (2024-##-##)
 
-## New features:
-
--
-
-
 ## Bug fixes:
 
 - `count_PJScodes` now accepts an empty `data.frame` as input to PJSdata.
@@ -12,12 +7,9 @@
 
 ## Other changes:
 
-- Updated dependencies to using NVIpjsr in Rmd-templates used in check-routines. 
+- Attached NVIpjsr in all Rmd-templates used in check-routines. 
 
-
-## BREAKING CHANGES:
-
--
+- Uses internal pipe |> and updated dependencies to R 4.1.0.
 
 
 # OKcheck 0.3.4 - (2024-08-21)

@@ -15,7 +15,7 @@ options(width = 1000)
 # Attach packages
 library(NVIbatch)
 use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra", "htmltools"))
-use_NVIverse(pkg = c("NVIdb", "OKcheck"))
+use_NVIverse(pkg = c("NVIdb", "NVIpjsr", "OKcheck"))
 
 # Global variables
 # For use in filenames

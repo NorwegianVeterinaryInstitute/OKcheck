@@ -25,7 +25,7 @@
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @noMd
-#' @importFrom magrittr %>%
+
 #' @export
 
 
@@ -58,7 +58,7 @@ knit_table_if_data <- function(data, heading) {
   if (dim(data)[1] > 0) {
     colnames(data) <- NVIdb::standardize_columns(data = data, property = "collabels")
 
-    output <- knitr::kable(data, caption = heading) %>%
+    output <- knitr::kable(data, caption = heading) |>
       kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
   }
   # RETURN HTML-TABLE WITH DATA FOR CHECKING ----

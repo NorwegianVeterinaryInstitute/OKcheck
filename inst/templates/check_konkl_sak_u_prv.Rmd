@@ -7,15 +7,15 @@ heading <- paste("<br/> <br/>",
 
 # Identify cases that need to be checked
 prvkonkl <- unique(paste(PJSdata$saksnr, PJSdata$konkl_kjennelsekode, PJSdata$konkl_analyttkode, sep = "-"))
-ktr <- PJSdata %>%
+ktr <- PJSdata |>
   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, avsluttet,
-                sakskonkl_kjennelsekode, sakskonkl_analyttkode) %>%
-  dplyr::filter(!is.na(sakskonkl_analyttkode) & !is.na(sakskonkl_kjennelsekode) & !is.na(avsluttet)) %>%
-  dplyr::distinct() %>%
-  dplyr::mutate(index = paste(saksnr, sakskonkl_kjennelsekode, sakskonkl_analyttkode, sep = "-")) %>%
-  dplyr::filter(!index %in% prvkonkl) %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  %>%
+                sakskonkl_kjennelsekode, sakskonkl_analyttkode) |>
+  dplyr::filter(!is.na(sakskonkl_analyttkode) & !is.na(sakskonkl_kjennelsekode) & !is.na(avsluttet)) |>
+  dplyr::distinct() |>
+  dplyr::mutate(index = paste(saksnr, sakskonkl_kjennelsekode, sakskonkl_analyttkode, sep = "-")) |>
+  dplyr::filter(!index %in% prvkonkl) |>
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr) |>
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  |>
   NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                   code_colname = c("sakskonkl_kjennelsekode", "sakskonkl_analyttkode"),
                                   new_column = c("sakskonkl_kjennelse", "sakskonkl_analytt")) 

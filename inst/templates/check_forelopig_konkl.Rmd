@@ -7,13 +7,13 @@ heading <- paste("<br/> <br/>",
                  "og at konklusjonstypen i så fall oppdateres </h5>")
 
 # Identify cases that need to be checked
-ktr <- PJSdata %>%
-  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_typekode, konkl_kjennelsekode, konkl_analyttkode, avsluttet) %>%
-  dplyr::distinct() %>%
-  dplyr::filter(konkl_typekode == 3 & !is.na(avsluttet)) %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, avsluttet)) %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("auto"),
+ktr <- PJSdata |>
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_typekode, konkl_kjennelsekode, konkl_analyttkode, avsluttet) |>
+  dplyr::distinct() |>
+  dplyr::filter(konkl_typekode == 3 & !is.na(avsluttet)) |>
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) |>
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, avsluttet)) |>
+  NVIpjsr::add_PJS_code_description(PJS_variable_type = c("auto"),
                                   code_colname = c("konkl_typekode", "konkl_kjennelsekode", "konkl_analyttkode"),
                                   new_column = c("auto")) 
 

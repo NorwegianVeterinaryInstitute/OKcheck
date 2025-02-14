@@ -52,29 +52,29 @@ for (i in c(1:dim(combinations)[1])) {
     ktr$combined_codes <- apply(ktr[, c("hensiktkode", code_variable)], 1, FUN = paste, collapse = "-")
     
     # Find records deviating from accepted code values  
-    ktr <- ktr %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = combined_codes)),0)) %>%
-      dplyr::filter(accepted == 0) %>%
-      dplyr::select(-c(combined_codes, accepted)) %>%
-      dplyr::distinct() %>%
+    ktr <- ktr |>
+      dplyr::rowwise() |>
+      dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = combined_codes)),0)) |>
+      dplyr::filter(accepted == 0) |>
+      dplyr::select(-c(combined_codes, accepted)) |>
+      dplyr::distinct() |>
       dplyr::arrange(across(all_of(index)))
     
     # if prove-level, put all records within same saksnr and code_variable on a single row
     # all provenr per sak into one variable
     # All provenr for one sak on one row
     if (base::setequal(index, c("aar", "ansvarlig_seksjon", "innsendelsenr", "provenr"))) {
-      ktr <- ktr %>%
-        dplyr::arrange(across(all_of(c("aar", "ansvarlig_seksjon", "innsendelsenr", code_variable)))) %>%
+      ktr <- ktr |>
+        dplyr::arrange(across(all_of(c("aar", "ansvarlig_seksjon", "innsendelsenr", code_variable)))) |>
         tidyr::pivot_wider(id_cols = all_of(c("aar", "ansvarlig_seksjon", "innsendelsenr", "saksnr",  "hensiktkode", code_variable)),
                            names_from = provenr,
                            values_from = provenr,
-                           names_prefix = "p") %>%
-        dplyr::rowwise() %>%
+                           names_prefix = "p") |>
+        dplyr::rowwise() |>
         # Combine all provenr into one variable
-        dplyr::mutate(provenr = toString(c_across(starts_with("p")))) %>%
+        dplyr::mutate(provenr = toString(c_across(starts_with("p")))) |>
         # Keep all provenr and remove provenr with NA
-        dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
+        dplyr::mutate(provenr = gsub("NA, ", "", provenr)) |>
         dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) 
       
       ktr <- ktr[, c("saksnr", index, "hensiktkode", code_variable)]
@@ -107,7 +107,7 @@ for (i in c(1:dim(combinations)[1])) {
   # if (dim(ktr)[1] > 0) {
   #   colnames(ktr) <- NVIdb::standardize_columns(data = ktr, property = "collabels")
   # 
-  #   print(knitr::kable(ktr, caption = heading) %>%
+  #   print(knitr::kable(ktr, caption = heading) |>
   #     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")))
   # }
 

@@ -8,14 +8,14 @@ heading <- paste("<br/> <br/>",
                  "Ber om at de pr\u00F8vekonklusjonene som er feil, fjernes fra saken. </h5>")
 
 # Identify cases that need to be checked
-ktr <- PJSdata %>%
-  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_kjennelsekode, konkl_analyttkode) %>%
-  dplyr::distinct() %>%
-  dplyr::add_count(saksnr, provenr, konkl_analyttkode) %>%
-  dplyr::filter(n > 1) %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, n)) %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
+ktr <- PJSdata |>
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_kjennelsekode, konkl_analyttkode) |>
+  dplyr::distinct() |>
+  dplyr::add_count(saksnr, provenr, konkl_analyttkode) |>
+  dplyr::filter(n > 1) |>
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) |>
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, n)) |>
+  NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 

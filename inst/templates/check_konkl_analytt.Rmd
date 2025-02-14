@@ -22,27 +22,27 @@ code_2_accept <- gsub(pattern = "%", replacement = "[:digit:]*", x = code_2_acce
   ktr <- PJSdata[, c("saksnr", "aar", "ansvarlig_seksjon", "innsendelsenr", "provenr", "hensiktkode", "konkl_analyttkode")] 
   ktr$index <- paste(ktr$hensiktkode, ktr$konkl_analyttkode, sep = "-")
   
-  ktr <- ktr %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = index)),0)) %>%
-  dplyr::filter(accepted == 0) %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) %>%
-  dplyr::distinct() %>%
+  ktr <- ktr |>
+  dplyr::rowwise() |>
+  dplyr::mutate(accepted = max(unlist(lapply(code_2_accept, grep, x = index)),0)) |>
+  dplyr::filter(accepted == 0) |>
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) |>
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) |>
+  dplyr::distinct() |>
   # # all provenr per sak into one variable
   # # All provenr for one sak on one row
   # tidyr::pivot_wider(id_cols = c(saksnr, artkode),
   #                    names_from = provenr,
   #                    values_from = provenr,
-  #                    names_prefix = "p") %>%
-  # dplyr::rowwise() %>%
+  #                    names_prefix = "p") |>
+  # dplyr::rowwise() |>
   # # Combine all provenr into one variable
-  # dplyr::mutate(provenr = toString(c_across(starts_with("p")))) %>%
+  # dplyr::mutate(provenr = toString(c_across(starts_with("p")))) |>
   # # Keep all provenr and remove provenr with NA
-  # dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
-  # dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
-  dplyr::select(saksnr, provenr, konkl_analyttkode) %>%
-  NVIdb::add_PJS_code_description(PJS_variable_type = c("analytt"),
+  # dplyr::mutate(provenr = gsub("NA, ", "", provenr)) |>
+  # dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) |>
+  dplyr::select(saksnr, provenr, konkl_analyttkode) |>
+  NVIpjsr::add_PJS_code_description(PJS_variable_type = c("analytt"),
                                   code_colname = c("konkl_analyttkode"),
                                   new_column = c("konkl_analytt")) 
 } else { ktr <- data.frame()}

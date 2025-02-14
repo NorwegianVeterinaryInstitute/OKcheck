@@ -31,8 +31,6 @@
 #' @param translation_table [\code{data.frame}]\cr
 #'     The translation table for PJS-codes, see details.
 #'
-#' @importFrom magrittr %>%
-#'
 #' @return A data frame with the used codes, their description and the number of
 #'     rows where the codes have been used.
 #'
@@ -87,9 +85,13 @@ count_PJScodes <- function(PJSdata,
   }
 
   # Counts number of rows
-  # used_codes <- as.data.frame(used_codes[, variable]) %>%
+  # used_codes <- as.data.frame(used_codes[, variable]) |>
   #   dplyr::count(used_codes[, variable])
+  if (nrow(used_codes > 0)) {
   used_codes <- stats::aggregate(x = used_codes[, variable], by = list(used_codes[, variable]), FUN = length)
+  } else {
+    used_codes <- used_codes[, c(variable, variable)]
+  }
   colnames(used_codes) <- c(variable, "n_obs")
   used_codes[, variable] <- as.character(used_codes[, variable])
 
@@ -102,8 +104,8 @@ count_PJScodes <- function(PJSdata,
     acceptedx <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = accepted, fixed = TRUE)
 
     colnames(used_codes)[colnames(used_codes) == variable] <- "used_code"
-    used_codes <- used_codes %>%
-      dplyr::rowwise() %>%
+    used_codes <- used_codes |>
+      dplyr::rowwise() |>
       dplyr::mutate(accepted = max(unlist(lapply(acceptedx, grep, x = used_code)), 0))
 
     used_codes$accepted <- +(as.logical(used_codes$accepted))
@@ -119,8 +121,8 @@ count_PJScodes <- function(PJSdata,
     excludedx <- gsub(pattern = "%", replacement = "[[:digit:]]*", x = excluded, fixed = TRUE)
 
     colnames(used_codes)[colnames(used_codes) == variable] <- "used_code"
-    used_codes <- used_codes %>%
-      dplyr::rowwise() %>%
+    used_codes <- used_codes |>
+      dplyr::rowwise() |>
       dplyr::mutate(excluded = max(unlist(lapply(excludedx, grep, x = used_code)), 0))
 
     used_codes$excluded <- +(as.logical(used_codes$excluded))

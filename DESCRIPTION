@@ -16,15 +16,13 @@ BugReports: https://github.com/NorwegianVeterinaryInstitute/OKcheck/issues
 License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+Depends: R (>= 4.1.0)
 Imports: 
     checkmate,
     dplyr,
     htmltools,
     kableExtra,
     knitr,
-    magrittr,
     rmarkdown,
     tidyr,
     NVIbatch (>= 0.4.0),
@@ -45,7 +43,7 @@ Remotes:
     github::NorwegianVeterinaryInstitute/NVIpackager,
     github::NorwegianVeterinaryInstitute/NVIpjsr,
     github::NorwegianVeterinaryInstitute/NVIrpackages
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-Depends: 
-    R (>= 4.0)

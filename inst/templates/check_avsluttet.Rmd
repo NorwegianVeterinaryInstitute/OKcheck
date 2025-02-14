@@ -8,14 +8,14 @@ heading <- paste("<br/> <br/>",   # &nbsp may be more general than <br/>
                  "<h5> Ber om at sakene avsluttes. Dersom en sak ikke er reell, bes det om at den fjernes fra PJS. </h5>")
 
 # Identify cases that need to be checked
-ktr <- PJSdata %>%
-  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, mottatt, avsluttet) %>%
-  dplyr::mutate(today = as.Date(Sys.Date())) %>%
+ktr <- PJSdata  |> 
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, mottatt, avsluttet) |>
+  dplyr::mutate(today = as.Date(Sys.Date())) |>
   dplyr::mutate(accepted_date_interval = dplyr::case_when(aar < format(today, "%Y") ~ 60,
-                                                          TRUE ~ 60)) %>%
-  dplyr::filter(is.na(avsluttet) & ((today - mottatt) > accepted_date_interval)) %>%
-  dplyr::distinct() %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr) %>%
+                                                          TRUE ~ 60)) |>
+  dplyr::filter(is.na(avsluttet) & ((today - mottatt) > accepted_date_interval)) |>
+  dplyr::distinct() |>
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr) |>
   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, today, accepted_date_interval))
 
 # Report data with heading if any data to check

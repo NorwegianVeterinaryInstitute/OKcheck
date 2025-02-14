@@ -13,29 +13,29 @@ heading <- paste("<br/> <br/>",
                  "eller om pr\u00F8vekonklusjonen kan være feil. </h5>")
 
 # Identify cases that need to be checked
-sakpos <- PJSdata %>%
-  dplyr::select(saksnr, sakskonkl_kjennelsekode, sakskonkl_analyttkode) %>%
-  dplyr::filter(sakskonkl_kjennelsekode == kjennelsekode & sakskonkl_analyttkode == analyttkode) %>%
-  dplyr::distinct() %>%
+sakpos <- PJSdata |>
+  dplyr::select(saksnr, sakskonkl_kjennelsekode, sakskonkl_analyttkode) |>
+  dplyr::filter(sakskonkl_kjennelsekode == kjennelsekode & sakskonkl_analyttkode == analyttkode) |>
+  dplyr::distinct() |>
   dplyr::mutate(index = paste(saksnr, sakskonkl_kjennelsekode, sakskonkl_analyttkode, sep = "-"))
 
-ktr <- PJSdata %>%
-  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_kjennelsekode, konkl_analyttkode, avsluttet) %>%
-  dplyr::filter(konkl_kjennelsekode == kjennelsekode & konkl_analyttkode == analyttkode & !is.na(avsluttet)) %>%
-  dplyr::distinct() %>%
-  dplyr::filter(!saksnr %in% sakpos$saksnr) %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) %>%
-  dplyr::distinct() %>%
+ktr <- PJSdata |>
+  dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, provenr, konkl_kjennelsekode, konkl_analyttkode, avsluttet) |>
+  dplyr::filter(konkl_kjennelsekode == kjennelsekode & konkl_analyttkode == analyttkode & !is.na(avsluttet)) |>
+  dplyr::distinct() |>
+  dplyr::filter(!saksnr %in% sakpos$saksnr) |>
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) |>
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr)) |>
+  dplyr::distinct() |>
   tidyr::pivot_wider(id_cols = c(saksnr, konkl_kjennelsekode, konkl_analyttkode),
                      names_from = provenr,
                      values_from = provenr,
-                     names_prefix = "P") %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(provenr = toString(c_across(starts_with("P")))) %>%
-  dplyr::mutate(provenr = gsub("NA, ", "", provenr)) %>%
-  dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) %>%
-  dplyr::select(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode) %>%
+                     names_prefix = "P") |>
+  dplyr::rowwise() |>
+  dplyr::mutate(provenr = toString(c_across(starts_with("P")))) |>
+  dplyr::mutate(provenr = gsub("NA, ", "", provenr)) |>
+  dplyr::mutate(provenr = trimws(provenr, "b", "[ ,NA]")) |>
+  dplyr::select(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode) |>
   NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                     code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
                                     new_column = c("konkl_kjennelse", "konkl_analytt")) 

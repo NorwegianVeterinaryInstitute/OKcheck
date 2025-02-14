@@ -11,43 +11,43 @@ heading <- paste("<br/> <br/>",
 
 # Identify cases that need to be checked
 resultater <- unique(paste(PJSdata$saksnr, PJSdata$provenr, PJSdata$res_kjennelsekode, PJSdata$res_analyttkode, sep = "-"))
-ktr <- PJSdata %>%
+ktr <- PJSdata |>
   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, provenr,
-                avsluttet, konkl_kjennelsekode, konkl_analyttkode) %>%
-  dplyr::filter(!is.na(avsluttet) & konkl_analyttkode != "missing" & konkl_kjennelsekode == "020209") %>%
-  dplyr::distinct() %>%
-  dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) %>%
-  dplyr::filter(!index %in% resultater) %>%
-  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index, avsluttet))  %>%
+                avsluttet, konkl_kjennelsekode, konkl_analyttkode) |>
+  dplyr::filter(!is.na(avsluttet) & konkl_analyttkode != "missing" & konkl_kjennelsekode == "020209") |>
+  dplyr::distinct() |>
+  dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) |>
+  dplyr::filter(!index %in% resultater) |>
+  dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) |>
+  dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index, avsluttet))  |>
   NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
 # resultater <- c(resultater,
 #                 unique(paste(PJSdata$saksnr, PJSdata$provenr, PJSdata$res_kjennelsekode, substr(PJSdata$res_analyttkode, 1, length_analytt), sep = "-")))
-# ktr2 <- PJSdata %>%
+# ktr2 <- PJSdata |>
 #   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, provenr,
-#                 konkl_kjennelsekode, konkl_analyttkode) %>%
-#   dplyr::filter(konkl_analyttkode != "missing" & konkl_kjennelsekode == "020103002") %>%
-#   dplyr::distinct() %>%
-#   dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) %>%
-#   dplyr::filter(!index %in% resultater) %>%
-#   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-#   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  %>%
+#                 konkl_kjennelsekode, konkl_analyttkode) |>
+#   dplyr::filter(konkl_analyttkode != "missing" & konkl_kjennelsekode == "020103002") |>
+#   dplyr::distinct() |>
+#   dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) |>
+#   dplyr::filter(!index %in% resultater) |>
+#   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) |>
+#   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  |>
 #   NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
 #                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
 #                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
 
-# ktr3 <- PJSdata %>%
+# ktr3 <- PJSdata |>
 #   dplyr::select(saksnr, aar, ansvarlig_seksjon, innsendelsenr, fagansvarlig_person, provenr,
-#                 konkl_kjennelsekode, konkl_analyttkode) %>%
-#   dplyr::filter(konkl_analyttkode != "missing" & konkl_kjennelsekode == "020403") %>%
-#   dplyr::distinct() %>%
-#   dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) %>%
-#   dplyr::filter(!index %in% resultater) %>%
-#   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) %>%
-#   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  %>%
+#                 konkl_kjennelsekode, konkl_analyttkode) |>
+#   dplyr::filter(konkl_analyttkode != "missing" & konkl_kjennelsekode == "020403") |>
+#   dplyr::distinct() |>
+#   dplyr::mutate(index = paste(saksnr, provenr, konkl_kjennelsekode, konkl_analyttkode, sep = "-")) |>
+#   dplyr::filter(!index %in% resultater) |>
+#   dplyr::arrange(aar, ansvarlig_seksjon, innsendelsenr, provenr) |>
+#   dplyr::select(-c(aar, ansvarlig_seksjon, innsendelsenr, index))  |>
 #   NVIpjsr::add_PJS_code_description(PJS_variable_type = c("kjennelse", "analytt"),
 #                                   code_colname = c("konkl_kjennelsekode", "konkl_analyttkode"),
 #                                   new_column = c("konkl_kjennelse", "konkl_analytt")) 
